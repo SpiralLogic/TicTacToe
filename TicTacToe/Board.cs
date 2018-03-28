@@ -1,4 +1,6 @@
-﻿namespace TicTacToe
+﻿using System.Drawing;
+
+namespace TicTacToe
 {
     internal class Board
     {
@@ -34,9 +36,14 @@
             return output.TrimEnd();
         }
 
-        public void SetPosition(int x, int y, char piece)
+        public void SetPosition(Point position, char piece)
         {
-            _board[x - 1, y - 1] = piece;
+            _board[position.X - 1, position.Y - 1] = piece;
+        }
+
+        public bool IsPositionEmpty(Point position)
+        {
+            return _board[position.X -1, position.Y-1] == EmptyPoition;
         }
     }
 }

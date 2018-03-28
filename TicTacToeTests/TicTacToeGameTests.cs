@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using TicTacToe;
 using Xunit;
 
@@ -9,9 +10,15 @@ namespace TicTacToeTests
         [Fact]
         public void InitialGameHasEmptyBoard()
         {
+            const string expected = "Here's the current board:\n" +
+                                    ". . .\n" +
+                                    ". . .\n" +
+                                    ". . .\n" +
+                                    "Player 1 enter a coord x,y to place your X or enter 'q' to give up";
+            
             var ttt = new TicTacToeGame();
 
-            Assert.Equal("Here's the current board:\n. . .\n. . .\n. . .", ttt.Board());
+            Assert.Equal(expected, ttt.NewGame());
         }
 
         [Fact]
@@ -23,9 +30,10 @@ namespace TicTacToeTests
                                     ". . .\n" +
                                     ". . .\n" +
                                     "Player 2 enter a coord x,y to place your 0 or enter 'q' to give up: 1,1";
-            
-            Assert.Equal(expected, ttt.MakeMove(1, 1));
+
+            Assert.Equal(expected, ttt.MakeMove(new Point(1,1)));
         }
+
         [Fact]
         public void EnteringQGivesUp()
         {
@@ -36,6 +44,16 @@ namespace TicTacToeTests
                                     ". . .";
 
             Assert.Equal(expected, ttt.MakeMove('q'));
+        }
+
+        [Fact]
+        public void PlacingAPieceInAPositionAlreadyOccupiedGivesError()
+        {
+            var ttt = new TicTacToeGame();
+            const string expected = "Oh no, a piece is already at this place! Try again...";
+
+            ttt.MakeMove(new Point(1,1));
+            Assert.Equal(expected, ttt.MakeMove(new Point(1,1)));
         }
     }
 }

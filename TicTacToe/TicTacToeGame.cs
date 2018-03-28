@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace TicTacToe
 {
@@ -13,32 +14,41 @@ namespace TicTacToe
             _board = new Board(BoardSize);
         }
 
-        public string MakeMove(uint x, uint y)
+        public string MakeMove(Point position)
         {
-            if (x < 1 || x > BoardSize || y < 1 || y > BoardSize)
+            if (IsValidBoardPosition(position))
             {
                 throw new ArgumentException("Invalid Move");
             }
 
-            _board.SetPosition(1, 1, 'X');
+            if (!_board.IsPositionEmpty(position))
+            {
+                return "Oh no, a piece is already at this place! Try again...";
+            }
 
-            return "Move accepted, here's the current board:\n" + _board + "\nPlayer 2 enter a coord x,y to place your 0 or enter 'q' to give up: 1,1";
+            _board.SetPosition(position, 'X');
+
+            return $"Move accepted, here's the current board:\n{_board}\nPlayer 2 enter a coord x,y to place your 0 or enter 'q' to give up: {position.X},{position.Y}";
+        }
+
+        public IEnumerable<char> NewGame()
+        {
+            return $"Here's the current board:\n{_board}\nPlayer 1 enter a coord x,y to place your X or enter 'q' to give up";
         }
 
         public string MakeMove(char move)
         {
-            if (move != 'q')
+            if (move == 'q')
             {
-                throw new ArgumentException("Invalid Move");
+                return "Move accepted, well done you've lost the game!\n" + _board;
             }
 
-            return
-                "Move accepted, well done you've lost the game!\n" + _board;
+            throw new ArgumentException("Invalid Move");
         }
 
-        public IEnumerable<char> Board()
+        private static bool IsValidBoardPosition(Point position)
         {
-            return "Here's the current board:\n" + _board;
+            return position.X < 1 || position.X > BoardSize || position.Y < 1 || position.Y > BoardSize;
         }
     }
 }
