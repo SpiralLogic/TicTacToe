@@ -8,17 +8,23 @@ namespace TicTacToe
     {
         private const int BoardSize = 3;
         private readonly Board _board;
+        private Player _player1;
+        private Player _player2;
+        private Player _currentPlayer;
 
         public TicTacToeGame()
         {
             _board = new Board(BoardSize);
+            _player1 = new Player("Player 1", 'X');
+            _player2 = new Player("Player 2", 'O');
+            _currentPlayer = _player1;
         }
 
         public string MakeMove(Point position)
         {
             if (IsValidBoardPosition(position))
             {
-                throw new ArgumentException("Invalid Move");
+                return $"Invalid move! Here's the current board:\n{_board}\n{_currentPlayer.Name} enter a coord x,y to place your {_currentPlayer.Symbol} or enter 'q' to give up: {position.X},{position.Y}";
             }
 
             if (!_board.IsPositionEmpty(position))
@@ -27,8 +33,14 @@ namespace TicTacToe
             }
 
             _board.SetPosition(position, 'X');
+            SwitchPlayers();
+            
+            return $"Move accepted, here's the current board:\n{_board}\n{_currentPlayer.Name} enter a coord x,y to place your {_currentPlayer.Symbol} or enter 'q' to give up: {position.X},{position.Y}";
+        }
 
-            return $"Move accepted, here's the current board:\n{_board}\nPlayer 2 enter a coord x,y to place your 0 or enter 'q' to give up: {position.X},{position.Y}";
+        private void SwitchPlayers()
+        {
+            _currentPlayer = _currentPlayer == _player1 ? _player2 : _player1;
         }
 
         public IEnumerable<char> NewGame()
@@ -40,7 +52,7 @@ namespace TicTacToe
         {
             if (move == 'q')
             {
-                return "Move accepted, well done you've lost the game!\n" + _board;
+                return $"Invalid move! Here's the current board:\n{_board}\n{_currentPlayer.Name} enter a coord x,y to place your {_currentPlayer.Symbol} or enter 'q' to give up: {move}";
             }
 
             throw new ArgumentException("Invalid Move");

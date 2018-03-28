@@ -29,9 +29,22 @@ namespace TicTacToeTests
                                     "X . .\n" +
                                     ". . .\n" +
                                     ". . .\n" +
-                                    "Player 2 enter a coord x,y to place your 0 or enter 'q' to give up: 1,1";
+                                    "Player 2 enter a coord x,y to place your O or enter 'q' to give up: 1,1";
 
             Assert.Equal(expected, ttt.MakeMove(new Point(1,1)));
+        }
+
+        [Fact]
+        public void EnteringInvalidMoveShowError()
+        {
+            var ttt = new TicTacToeGame();
+            const string expected = "Invalid move! Here's the current board:\n" +
+                                    ". . .\n" +
+                                    ". . .\n" +
+                                    ". . .\n" +
+                                    "Player 1 enter a coord x,y to place your X or enter 'q' to give up: 0,1";
+
+            Assert.Equal(expected, ttt.MakeMove(new Point(0,1)));
         }
 
         [Fact]
