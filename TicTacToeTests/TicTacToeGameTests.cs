@@ -1,7 +1,7 @@
-using System;
-using System.Drawing;
+using System.Collections.Generic;
 using TicTacToe;
 using Xunit;
+using Coordinate = System.Drawing.Point;
 
 namespace TicTacToeTests
 {
@@ -10,63 +10,133 @@ namespace TicTacToeTests
         [Fact]
         public void InitialGameHasEmptyBoard()
         {
-            const string expected = "Here's the current board:\n" +
-                                    ". . .\n" +
-                                    ". . .\n" +
-                                    ". . .\n" +
-                                    "Player 1 enter a coord x,y to place your X or enter 'q' to give up";
-            
-            var ttt = new TicTacToeGame();
+            string[] expected =
+            {
+                ". . .",
+                ". . .",
+                ". . ."
+            };
 
-            Assert.Equal(expected, ttt.NewGame());
+            var game = new TicTacToeGame();
+
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
         [Fact]
-        public void Entering11PlacesXInTopRight()
+        public void TakingValidTurnPlacesPlayerSymbolInCorrectPosition()
         {
-            var ttt = new TicTacToeGame();
-            const string expected = "Move accepted, here's the current board:\n" +
-                                    "X . .\n" +
-                                    ". . .\n" +
-                                    ". . .\n" +
-                                    "Player 2 enter a coord x,y to place your O or enter 'q' to give up: 1,1";
+            string[] before =
+            {
+                ". . .",
+                ". . .",
+                ". . ."
+            };
 
-            Assert.Equal(expected, ttt.MakeMove(new Point(1,1)));
+            string[] expected =
+            {
+                "X . .",
+                ". . .",
+                ". . ."
+            };
+
+            var game = new TicTacToeGame();
+
+            Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 1)));
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
         [Fact]
-        public void EnteringInvalidMoveShowError()
+        public void TakingMultipleTurnsAlternatesPlayerSymbols()
         {
-            var ttt = new TicTacToeGame();
-            const string expected = "Invalid move! Here's the current board:\n" +
-                                    ". . .\n" +
-                                    ". . .\n" +
-                                    ". . .\n" +
-                                    "Player 1 enter a coord x,y to place your X or enter 'q' to give up: 0,1";
+            string[] expected =
+            {
+                "X O X",
+                "O X O",
+                ". . ."
+            };
 
-            Assert.Equal(expected, ttt.MakeMove(new Point(0,1)));
+            var game = new TicTacToeGame();
+
+            var firstPlayer = game.CurrentPlayer;
+
+            game.TakeTurn(new Coordinate(1, 1));
+            var secondPlayer = game.CurrentPlayer;
+
+            game.TakeTurn(new Coordinate(1, 2));
+            game.TakeTurn(new Coordinate(1, 3));
+            game.TakeTurn(new Coordinate(2, 1));
+            game.TakeTurn(new Coordinate(2, 2));
+            game.TakeTurn(new Coordinate(2, 3));
+
+            Assert.Equal('X', firstPlayer.Symbol);
+            Assert.Equal('O', secondPlayer.Symbol);
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
         [Fact]
-        public void EnteringQGivesUp()
+        public void EnteringInvalidMoveHasInvalidTurnStatus()
         {
-            var ttt = new TicTacToeGame();
-            const string expected = "Move accepted, well done you've lost the game!\n" +
-                                    ". . .\n" +
-                                    ". . .\n" +
-                                    ". . .";
+            string[] expected =
+            {
+                ". . .",
+                ". . .",
+                ". . ."
+            };
 
-            Assert.Equal(expected, ttt.MakeMove('q'));
+            var game = new TicTacToeGame();
+
+            Assert.IsType<CoordinateInvalid>(game.TakeTurn(new Coordinate(0, 1)));
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
         [Fact]
         public void PlacingAPieceInAPositionAlreadyOccupiedGivesError()
         {
-            var ttt = new TicTacToeGame();
-            const string expected = "Oh no, a piece is already at this place! Try again...";
+            var game = new TicTacToeGame();
 
-            ttt.MakeMove(new Point(1,1));
-            Assert.Equal(expected, ttt.MakeMove(new Point(1,1)));
+            game.TakeTurn(new Coordinate(1, 1));
+            Assert.IsType<CoordinateAlreadyTaken>(game.TakeTurn(new Coordinate(1, 1)));
+        }
+
+        [Fact]
+        public void TheGameEndsIfAPlayerForfeits()
+        {
+            string[] expected =
+            {
+                ". . .",
+                ". . .",
+                ". . ."
+            };
+
+            var game = new TicTacToeGame();
+
+            Assert.IsType<GameForfeit>(game.ForfeitGame());
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
+        }
+
+        [Fact]
+        public void TheGameIsWonWhenAPlayerTakesAWholeRow()
+        {
+            string[] expected =
+            {
+                "X X X",
+                ". . .",
+                "O . O"
+            };
+
+            var game = new TicTacToeGame();
+
+            game.TakeTurn(new Coordinate(1, 1));
+            game.TakeTurn(new Coordinate(3, 1));
+            game.TakeTurn(new Coordinate(1, 2));
+            game.TakeTurn(new Coordinate(3, 3));
+
+            var statusBeforeWinningTurn = game.GameStatus;
+            game.TakeTurn(new Coordinate(1, 3));
+            
+            Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
+            Assert.IsType<GameWon>(game.GameStatus);
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
     }
 }

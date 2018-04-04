@@ -1,66 +1,79 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
     public class TicTacToeGame
     {
+        private Board _board;
         private const int BoardSize = 3;
-        private readonly Board _board;
-        private Player _player1;
-        private Player _player2;
-        private Player _currentPlayer;
+        private readonly Player _player1;
+        private readonly Player _player2;
 
         public TicTacToeGame()
         {
             _board = new Board(BoardSize);
             _player1 = new Player("Player 1", 'X');
             _player2 = new Player("Player 2", 'O');
-            _currentPlayer = _player1;
+            CurrentPlayer = _player1;
+            GameStatus = new GameInProgress(CurrentPlayer);
         }
 
-        public string MakeMove(Point position)
+        public Player CurrentPlayer { get; private set; }
+        public IGameStatus GameStatus { get; private set; }
+        public IEnumerable<char> DescribeBoard() => _board.ToString();
+
+        public ITurnStatus TakeTurn(Coordinate coordinate)
         {
-            if (IsValidBoardPosition(position))
+            if (!(GameStatus is GameInProgress))
             {
-                return $"Invalid move! Here's the current board:\n{_board}\n{_currentPlayer.Name} enter a coord x,y to place your {_currentPlayer.Symbol} or enter 'q' to give up: {position.X},{position.Y}";
+                return new GameIsOver();
             }
 
-            if (!_board.IsPositionEmpty(position))
+            if (!_board.IsOnBoard(coordinate))
             {
-                return "Oh no, a piece is already at this place! Try again...";
+                return new CoordinateInvalid();
             }
 
-            _board.SetPosition(position, 'X');
+            if (!_board.IsEmptyAt(coordinate))
+            {
+                return new CoordinateAlreadyTaken();
+            }
+
+            _board.SetPosition(coordinate, CurrentPlayer);
+
+            UpdateGameStatus();
             SwitchPlayers();
-            
-            return $"Move accepted, here's the current board:\n{_board}\n{_currentPlayer.Name} enter a coord x,y to place your {_currentPlayer.Symbol} or enter 'q' to give up: {position.X},{position.Y}";
+
+            return new TurnSuccess();
+        }
+
+        private void UpdateGameStatus()
+        {
+            if (IsHorizontalWin())
+            {
+                GameStatus = new GameWon(CurrentPlayer);
+            }
+        }
+
+        private bool IsHorizontalWin()
+        {
+            var win = new HorizontalWinCondition();
+            return win.HasWon(CurrentPlayer, _board);
         }
 
         private void SwitchPlayers()
         {
-            _currentPlayer = _currentPlayer == _player1 ? _player2 : _player1;
+            CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
         }
 
-        public IEnumerable<char> NewGame()
+        public IGameStatus ForfeitGame()
         {
-            return $"Here's the current board:\n{_board}\nPlayer 1 enter a coord x,y to place your X or enter 'q' to give up";
-        }
+            _board = new Board(BoardSize);
 
-        public string MakeMove(char move)
-        {
-            if (move == 'q')
-            {
-                return $"Invalid move! Here's the current board:\n{_board}\n{_currentPlayer.Name} enter a coord x,y to place your {_currentPlayer.Symbol} or enter 'q' to give up: {move}";
-            }
-
-            throw new ArgumentException("Invalid Move");
-        }
-
-        private static bool IsValidBoardPosition(Point position)
-        {
-            return position.X < 1 || position.X > BoardSize || position.Y < 1 || position.Y > BoardSize;
+            return new GameForfeit(CurrentPlayer);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe
 {
-    internal class Player
+    public class Player
     {
         internal Player(string name, char symbol)
         {
@@ -9,6 +9,6 @@
         }
         
         internal string Name { get; }
-        internal char Symbol { get; }
+        public char Symbol { get; }
     }
 }
