@@ -1,12 +1,7 @@
 ﻿using Coordinate = System.Drawing.Point;
 
-namespace TicTacToe
+namespace TicTacToe.WinConditions
 {
-    internal interface IWinCondition
-    {
-        bool HasWon(Player player, Board board);
-    }
-
     internal class HorizontalWinCondition : IWinCondition
     {
         public bool HasWon(Player player, Board board)

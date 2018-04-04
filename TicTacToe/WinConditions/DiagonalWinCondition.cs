@@ -1,6 +1,6 @@
 ﻿using Coordinate = System.Drawing.Point;
 
-namespace TicTacToe
+namespace TicTacToe.WinConditions
 {
     internal class DiagonalWinCondition : IWinCondition
     {

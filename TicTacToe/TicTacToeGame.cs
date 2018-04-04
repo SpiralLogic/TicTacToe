@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using TicTacToe.GameStatus;
+using TicTacToe.TurnStatus;
+using TicTacToe.WinConditions;
 using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
@@ -9,6 +12,7 @@ namespace TicTacToe
     {
         private Board _board;
         private const int BoardSize = 3;
+        private int _numberOfTurns = 0;
         private readonly Player _player1;
         private readonly Player _player2;
         private HashSet<IWinCondition> _winConditions;
@@ -40,11 +44,6 @@ namespace TicTacToe
 
         public ITurnStatus TakeTurn(Coordinate coordinate)
         {
-            if (!(GameStatus is GameInProgress))
-            {
-                return new GameIsOver();
-            }
-
             if (!_board.IsOnBoard(coordinate))
             {
                 return new CoordinateInvalid();
@@ -66,6 +65,7 @@ namespace TicTacToe
 
         private void UpdateGameStatus()
         {
+            _numberOfTurns++;
             foreach (var winCondition in _winConditions)
             {
                 if (winCondition.HasWon(CurrentPlayer, _board))
@@ -73,6 +73,11 @@ namespace TicTacToe
                     GameStatus = new GameWon(CurrentPlayer);
                     return;
                 }
+            }
+
+            if (_numberOfTurns == _board.Size * _board.Size)
+            {
+                GameStatus = new GameDraw();
             }
         }
 

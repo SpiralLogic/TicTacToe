@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using TicTacToe;
+using TicTacToe.GameStatus;
+using TicTacToe.TurnStatus;
 using Xunit;
 using Coordinate = System.Drawing.Point;
 
