@@ -7,7 +7,7 @@
 
     public abstract class AbstractGameState : IGameState
     {
-        public string Status { get; }
+        public abstract string Status { get; }
         protected readonly Player Player;
 
         internal AbstractGameState(Player player)

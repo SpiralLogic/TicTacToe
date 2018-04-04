@@ -6,6 +6,6 @@
         {
         }
 
-        public string Status => $"Well done {Player} you've forfeited the game game!";
+        public override string Status => $"Well done {Player.Name} you forfeit the game!";
     }
 }

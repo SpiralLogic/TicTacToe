@@ -11,7 +11,6 @@ namespace TicTacToe
     public class TicTacToeGame
     {
         private Board _board;
-        private const int BoardSize = 3;
         private int _numberOfTurns = 0;
         private readonly Player _player1;
         private readonly Player _player2;
@@ -21,11 +20,11 @@ namespace TicTacToe
         public IGameState GameState { get; private set; }
         public IEnumerable<char> DescribeBoard() => _board.ToString();
 
-        public TicTacToeGame()
+        public TicTacToeGame(int boardSize = 3)
         {
             AddWinConditions();
 
-            _board = new Board(BoardSize);
+            _board = new Board(boardSize);
             _player1 = new Player("Player 1", 'X');
             _player2 = new Player("Player 2", 'O');
             CurrentPlayer = _player1;
@@ -46,21 +45,17 @@ namespace TicTacToe
 
             _board.SetPosition(coordinate, CurrentPlayer);
 
-            UpdateGameStatus();
-
-            SwitchPlayers();
+            UpdateGameState();
 
             return new TurnSuccess();
         }
-        
-        public IGameState ForfeitGame()
-        {
-            _board = new Board(BoardSize);
 
-            return new GameForfeit(CurrentPlayer);
+        public void ForfeitGame()
+        {
+            GameState = new GameForfeit(CurrentPlayer);
         }
-        
-        private void UpdateGameStatus()
+
+        private void UpdateGameState()
         {
             _numberOfTurns++;
             foreach (var winCondition in _winConditions)
@@ -75,7 +70,11 @@ namespace TicTacToe
             if (_numberOfTurns == _board.Size * _board.Size)
             {
                 GameState = new GameDraw();
+                return;
             }
+
+            SwitchPlayers();
+            GameState = new GameInProgress(CurrentPlayer);
         }
 
         private void SwitchPlayers()
@@ -86,8 +85,6 @@ namespace TicTacToe
             }
         }
 
-      
-        
         private void AddWinConditions()
         {
             _winConditions = new HashSet<IWinCondition>

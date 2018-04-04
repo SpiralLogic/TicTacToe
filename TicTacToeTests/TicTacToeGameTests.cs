@@ -111,8 +111,9 @@ namespace TicTacToeTests
             };
 
             var game = new TicTacToeGame();
-
-            Assert.IsType<GameForfeit>(game.ForfeitGame());
+            game.ForfeitGame();
+            
+            Assert.IsType<GameForfeit>(game.GameState);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
