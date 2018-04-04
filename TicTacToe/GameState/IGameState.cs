@@ -1,16 +1,16 @@
-﻿namespace TicTacToe.GameStatus
+﻿namespace TicTacToe.GameState
 {
-    public interface IGameStatus
+    public interface IGameState
     {
         string Status { get; }
     }
 
-    public abstract class AbstractGameStatus : IGameStatus
+    public abstract class AbstractGameState : IGameState
     {
         public string Status { get; }
         protected readonly Player Player;
 
-        internal AbstractGameStatus(Player player)
+        internal AbstractGameState(Player player)
         {
             Player = player;
         }

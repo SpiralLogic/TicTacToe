@@ -1,5 +1,5 @@
 ﻿using TicTacToe;
-using TicTacToe.GameStatus;
+using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using Xunit;
 using Coordinate = System.Drawing.Point;
@@ -88,7 +88,7 @@ namespace TicTacToeTests
             Assert.Equal(string.Join('\n', sixthMoveExpected), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 2)));
-            Assert.IsType<GameWon>(game.GameStatus);
+            Assert.IsType<GameWon>(game.GameState);
             Assert.Equal(string.Join('\n', seventhMoveExpected), game.DescribeBoard());
         }
 
@@ -163,7 +163,7 @@ namespace TicTacToeTests
             Assert.Equal(string.Join('\n', expectedState6), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 3)));
-            Assert.IsType<GameWon>(game.GameStatus);
+            Assert.IsType<GameWon>(game.GameState);
             Assert.Equal(string.Join('\n', expectedState7), game.DescribeBoard());
         }
 
@@ -269,7 +269,7 @@ namespace TicTacToeTests
             Assert.Equal(string.Join('\n', expectedState9), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(3, 1)));
-            Assert.IsType<GameDraw>(game.GameStatus);
+            Assert.IsType<GameDraw>(game.GameState);
             Assert.Equal(string.Join('\n', expectedState10), game.DescribeBoard());
         }
     }

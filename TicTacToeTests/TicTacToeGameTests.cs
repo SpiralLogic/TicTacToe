@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using TicTacToe;
-using TicTacToe.GameStatus;
+using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using Xunit;
 using Coordinate = System.Drawing.Point;
@@ -133,11 +133,11 @@ namespace TicTacToeTests
             game.TakeTurn(new Coordinate(1, 2));
             game.TakeTurn(new Coordinate(3, 3));
 
-            var statusBeforeWinningTurn = game.GameStatus;
+            var statusBeforeWinningTurn = game.GameState;
             game.TakeTurn(new Coordinate(1, 3));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
-            Assert.IsType<GameWon>(game.GameStatus);
+            Assert.IsType<GameWon>(game.GameState);
             Assert.Equal('X', game.CurrentPlayer.Symbol);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
@@ -160,12 +160,12 @@ namespace TicTacToeTests
             game.TakeTurn(new Coordinate(2, 2));
             game.TakeTurn(new Coordinate(3, 1));
 
-            var statusBeforeWinningTurn = game.GameStatus;
+            var statusBeforeWinningTurn = game.GameState;
             game.TakeTurn(new Coordinate(3, 2));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             Assert.Equal('O', game.CurrentPlayer.Symbol);
-            Assert.IsType<GameWon>(game.GameStatus);
+            Assert.IsType<GameWon>(game.GameState);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
@@ -186,12 +186,12 @@ namespace TicTacToeTests
             game.TakeTurn(new Coordinate(2, 2));
             game.TakeTurn(new Coordinate(1, 2));
 
-            var statusBeforeWinningTurn = game.GameStatus;
+            var statusBeforeWinningTurn = game.GameState;
             game.TakeTurn(new Coordinate(1, 3));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             Assert.Equal('X', game.CurrentPlayer.Symbol);
-            Assert.IsType<GameWon>(game.GameStatus);
+            Assert.IsType<GameWon>(game.GameState);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
@@ -212,12 +212,12 @@ namespace TicTacToeTests
             game.TakeTurn(new Coordinate(2, 2));
             game.TakeTurn(new Coordinate(1, 2));
 
-            var statusBeforeWinningTurn = game.GameStatus;
+            var statusBeforeWinningTurn = game.GameState;
             game.TakeTurn(new Coordinate(3, 3));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             //Assert.Equal('X', game.CurrentPlayer.Symbol);
-            Assert.IsType<GameWon>(game.GameStatus);
+            Assert.IsType<GameWon>(game.GameState);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
     }

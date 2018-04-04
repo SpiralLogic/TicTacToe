@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using TicTacToe.GameStatus;
+using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using TicTacToe.WinConditions;
 using Coordinate = System.Drawing.Point;
@@ -17,6 +17,10 @@ namespace TicTacToe
         private readonly Player _player2;
         private HashSet<IWinCondition> _winConditions;
 
+        public Player CurrentPlayer { get; private set; }
+        public IGameState GameState { get; private set; }
+        public IEnumerable<char> DescribeBoard() => _board.ToString();
+
         public TicTacToeGame()
         {
             AddWinConditions();
@@ -25,22 +29,8 @@ namespace TicTacToe
             _player1 = new Player("Player 1", 'X');
             _player2 = new Player("Player 2", 'O');
             CurrentPlayer = _player1;
-            GameStatus = new GameInProgress(CurrentPlayer);
+            GameState = new GameInProgress(CurrentPlayer);
         }
-
-        private void AddWinConditions()
-        {
-            _winConditions = new HashSet<IWinCondition>
-            {
-                new HorizontalWinCondition(),
-                new VerticalWinCondition(),
-                new DiagonalWinCondition(),
-            };
-        }
-
-        public Player CurrentPlayer { get; private set; }
-        public IGameStatus GameStatus { get; private set; }
-        public IEnumerable<char> DescribeBoard() => _board.ToString();
 
         public ITurnStatus TakeTurn(Coordinate coordinate)
         {
@@ -62,7 +52,14 @@ namespace TicTacToe
 
             return new TurnSuccess();
         }
+        
+        public IGameState ForfeitGame()
+        {
+            _board = new Board(BoardSize);
 
+            return new GameForfeit(CurrentPlayer);
+        }
+        
         private void UpdateGameStatus()
         {
             _numberOfTurns++;
@@ -70,30 +67,35 @@ namespace TicTacToe
             {
                 if (winCondition.HasWon(CurrentPlayer, _board))
                 {
-                    GameStatus = new GameWon(CurrentPlayer);
+                    GameState = new GameWon(CurrentPlayer);
                     return;
                 }
             }
 
             if (_numberOfTurns == _board.Size * _board.Size)
             {
-                GameStatus = new GameDraw();
+                GameState = new GameDraw();
             }
         }
 
         private void SwitchPlayers()
         {
-            if (GameStatus is GameInProgress)
+            if (GameState is GameInProgress)
             {
                 CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
             }
         }
 
-        public IGameStatus ForfeitGame()
+      
+        
+        private void AddWinConditions()
         {
-            _board = new Board(BoardSize);
-
-            return new GameForfeit(CurrentPlayer);
+            _winConditions = new HashSet<IWinCondition>
+            {
+                new HorizontalWinCondition(),
+                new VerticalWinCondition(),
+                new DiagonalWinCondition(),
+            };
         }
     }
 }
