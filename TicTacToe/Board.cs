@@ -7,7 +7,7 @@ namespace TicTacToe
     {
         private readonly Player[,] _board;
         private static readonly Player EmptyPosition = new Player("", '.');
-        public int Size => _board.GetLength(0); 
+        public int Size => _board.GetLength(0);
 
         internal Board(int size)
         {
@@ -35,12 +35,12 @@ namespace TicTacToe
         {
             return !(coordinate.X < 1 || coordinate.X > _board.GetLength(0) || coordinate.Y < 1 || coordinate.Y > _board.GetLength(0));
         }
-        
+
         public Player GetPlayerAt(Coordinate coordinate)
         {
-            return _board[coordinate.X, coordinate.Y];
+            return _board[coordinate.X - 1, coordinate.Y - 1];
         }
-        
+
         public override string ToString()
         {
             var output = string.Empty;

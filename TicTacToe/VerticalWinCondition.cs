@@ -2,19 +2,14 @@
 
 namespace TicTacToe
 {
-    internal interface IWinCondition
-    {
-        bool HasWon(Player player, Board board);
-    }
-
-    internal class HorizontalWinCondition : IWinCondition
+    internal class VerticalWinCondition : IWinCondition
     {
         public bool HasWon(Player player, Board board)
         {
-            for (var x = 1; x <= board.Size; x++)
+            for (var y = 1; y <= board.Size; y++)
             {
                 var hasWon = true;
-                for (var y = 1; y <= board.Size; y++)
+                for (var x = 1; x <= board.Size; x++)
                 {
                     hasWon &= player == board.GetPlayerAt(new Coordinate(x, y));
                     if (!hasWon) break;

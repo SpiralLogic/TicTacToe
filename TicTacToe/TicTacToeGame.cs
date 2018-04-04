@@ -11,14 +11,27 @@ namespace TicTacToe
         private const int BoardSize = 3;
         private readonly Player _player1;
         private readonly Player _player2;
+        private HashSet<IWinCondition> _winConditions;
 
         public TicTacToeGame()
         {
+            AddWinConditions();
+
             _board = new Board(BoardSize);
             _player1 = new Player("Player 1", 'X');
             _player2 = new Player("Player 2", 'O');
             CurrentPlayer = _player1;
             GameStatus = new GameInProgress(CurrentPlayer);
+        }
+
+        private void AddWinConditions()
+        {
+            _winConditions = new HashSet<IWinCondition>
+            {
+                new HorizontalWinCondition(),
+                new VerticalWinCondition(),
+                new DiagonalWinCondition(),
+            };
         }
 
         public Player CurrentPlayer { get; private set; }
@@ -45,6 +58,7 @@ namespace TicTacToe
             _board.SetPosition(coordinate, CurrentPlayer);
 
             UpdateGameStatus();
+
             SwitchPlayers();
 
             return new TurnSuccess();
@@ -52,21 +66,22 @@ namespace TicTacToe
 
         private void UpdateGameStatus()
         {
-            if (IsHorizontalWin())
+            foreach (var winCondition in _winConditions)
             {
-                GameStatus = new GameWon(CurrentPlayer);
+                if (winCondition.HasWon(CurrentPlayer, _board))
+                {
+                    GameStatus = new GameWon(CurrentPlayer);
+                    return;
+                }
             }
-        }
-
-        private bool IsHorizontalWin()
-        {
-            var win = new HorizontalWinCondition();
-            return win.HasWon(CurrentPlayer, _board);
         }
 
         private void SwitchPlayers()
         {
-            CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
+            if (GameStatus is GameInProgress)
+            {
+                CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
+            }
         }
 
         public IGameStatus ForfeitGame()
