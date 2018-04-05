@@ -14,6 +14,9 @@ namespace TicTacToe
         private int _numberOfTurns;
         private HashSet<IWinCondition> _winConditions;
 
+        public Player CurrentPlayer { get; private set; }
+        public IGameState GameState { get; private set; }
+
         public TicTacToeGame(int boardSize = 3)
         {
             AddWinConditions();
@@ -24,9 +27,6 @@ namespace TicTacToe
             CurrentPlayer = _player1;
             GameState = new GameInProgress(CurrentPlayer);
         }
-
-        public Player CurrentPlayer { get; private set; }
-        public IGameState GameState { get; private set; }
 
         public IEnumerable<char> DescribeBoard()
         {

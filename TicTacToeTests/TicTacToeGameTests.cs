@@ -163,7 +163,7 @@ namespace TicTacToeTests
             game.TakeTurn(new Coordinate(3, 3));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
-            //Assert.Equal('X', game.CurrentPlayer.Symbol);
+            Assert.Equal('X', game.CurrentPlayer.Symbol);
             Assert.IsType<GameWon>(game.GameState);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }

@@ -11,7 +11,7 @@ namespace TicTacToe.WinConditions
                 var hasWon = true;
                 for (var x = 1; x <= board.Size; x++)
                 {
-                    hasWon &= player == board.GetPlayerAt(new Coordinate(x, y));
+                    hasWon &= player == board.GetEntityAt(new Coordinate(x, y));
                     if (!hasWon) break;
                 }
 

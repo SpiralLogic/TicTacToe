@@ -4,15 +4,20 @@ namespace TicTacToe
 {
     internal class Board
     {
-        private static readonly Player EmptyPosition = new Player("", '.');
-        private readonly Player[,] _board;
+        private readonly IBoardEntity _emptyPosition;
+        private readonly IBoardEntity[,] _board;
 
-        internal Board(int size)
+        internal Board(int size, IBoardEntity emptyBoardPEntity = null)
         {
-            _board = new Player[size, size];
+            _board = new IBoardEntity[size, size];
+            _emptyPosition = emptyBoardPEntity ?? new EmptyPosition('.');
             for (var row = 0; row < _board.GetLength(0); row++)
-            for (var cell = 0; cell < _board.GetLength(1); cell++)
-                _board[row, cell] = EmptyPosition;
+            {
+                for (var cell = 0; cell < _board.GetLength(1); cell++)
+                {
+                    _board[row, cell] = _emptyPosition;
+                }
+            }
         }
 
         public int Size => _board.GetLength(0);
@@ -24,7 +29,7 @@ namespace TicTacToe
 
         public bool IsEmptyAt(Coordinate coordinate)
         {
-            return _board[coordinate.X - 1, coordinate.Y - 1] == EmptyPosition;
+            return _board[coordinate.X - 1, coordinate.Y - 1] == _emptyPosition;
         }
 
         public bool IsOnBoard(Coordinate coordinate)
@@ -32,7 +37,7 @@ namespace TicTacToe
             return !(coordinate.X < 1 || coordinate.X > _board.GetLength(0) || coordinate.Y < 1 || coordinate.Y > _board.GetLength(0));
         }
 
-        public Player GetPlayerAt(Coordinate coordinate)
+        public IBoardEntity GetEntityAt(Coordinate coordinate)
         {
             return _board[coordinate.X - 1, coordinate.Y - 1];
         }
