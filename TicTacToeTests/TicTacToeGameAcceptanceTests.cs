@@ -11,69 +11,69 @@ namespace TicTacToeTests
         [Fact]
         public void GameCanBeADraw()
         {
-            string[] initalBoardExpected =
+            string[] expectedInitalBoard =
             {
                 ". . .",
                 ". . .",
                 ". . ."
             };
 
-            string[] expectedState2 =
+            string[] expectedBoard1 =
             {
                 ". . .",
                 ". X .",
                 ". . ."
             };
 
-            string[] expectedState3 =
+            string[] expectedBoard3 =
             {
                 ". . .",
                 ". X .",
                 ". . O"
             };
 
-            string[] expectedState4 =
+            string[] expectedBoard4 =
             {
                 ". . .",
                 ". X X",
                 ". . O"
             };
 
-            string[] expectedState5 =
+            string[] expectedBoard5 =
             {
                 ". . .",
                 ". X X",
                 ". O O"
             };
 
-            string[] expectedState6 =
+            string[] expectedBoard6 =
             {
                 ". X .",
                 ". X X",
                 ". O O"
             };
 
-            string[] expectedState7 =
+            string[] expectedBoard7 =
             {
                 ". X .",
                 "O X X",
                 ". O O"
             };
 
-            string[] expectedState8 =
+            string[] expectedBoard8 =
             {
                 "X X .",
                 "O X X",
                 ". O O"
             };
 
-            string[] expectedState9 =
+            string[] expectedBoard9 =
             {
                 "X X O",
                 "O X X",
                 ". O O"
             };
-            string[] expectedState10 =
+            string[] expectedBoard10 =
             {
                 "X X O",
                 "O X X",
@@ -81,194 +81,194 @@ namespace TicTacToeTests
             };
 
             var game = new TicTacToeGame();
-            Assert.Equal(string.Join('\n', initalBoardExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedInitalBoard), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 2));
-            Assert.Equal(string.Join('\n', expectedState2), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard1), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 3));
-            Assert.Equal(string.Join('\n', expectedState3), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard3), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 3));
-            Assert.Equal(string.Join('\n', expectedState4), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard4), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 2));
-            Assert.Equal(string.Join('\n', expectedState5), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard5), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 2));
-            Assert.Equal(string.Join('\n', expectedState6), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard6), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 1));
-            Assert.Equal(string.Join('\n', expectedState7), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard7), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 1));
-            Assert.Equal(string.Join('\n', expectedState8), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard8), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 3));
-            Assert.Equal(string.Join('\n', expectedState9), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard9), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(3, 1)));
             Assert.IsType<GameDraw>(game.GameState);
-            Assert.Equal(string.Join('\n', expectedState10), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard10), game.DescribeBoard());
         }
 
         [Fact]
         public void Player1CanWinTheGame()
         {
-            string[] initalBoardExpected =
+            string[] expectedInitialBoard =
             {
                 ". . .",
                 ". . .",
                 ". . ."
             };
 
-            string[] firstMoveExpected =
+            string[] expectedBoard1 =
             {
                 "X . .",
                 ". . .",
                 ". . ."
             };
 
-            string[] secondMoveExpected =
+            string[] expectedBoard2 =
             {
                 "X . .",
                 ". . .",
                 ". . O"
             };
 
-            string[] thirdMoveExpected =
+            string[] expectedBoard3 =
             {
                 "X . .",
                 ". . .",
                 "X . O"
             };
 
-            string[] fourthMoveExpected =
+            string[] expectedBoard4 =
             {
                 "X . .",
                 "O . .",
                 "X . O"
             };
 
-            string[] fifthMoveExpected =
+            string[] expectedBoard5 =
             {
-                "X . X",
-                "O . .",
-                "X . O"
-            };
-
-            string[] sixthMoveExpected =
-            {
-                "X . X",
-                "O . .",
-                "X . O"
-            };
-            string[] seventhMoveExpected =
-            {
-                "X . X",
+                "X . .",
                 "O X .",
                 "X . O"
             };
 
+            string[] expectedBoard6 =
+            {
+                "X . .",
+                "O X .",
+                "X O O"
+            };
+            string[] expectedFinalBoard =
+            {
+                "X . X",
+                "O X .",
+                "X O O"
+            };
+
             var game = new TicTacToeGame();
-            Assert.Equal(string.Join('\n', initalBoardExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedInitialBoard), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 1));
-            Assert.Equal(string.Join('\n', firstMoveExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard1), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 3));
-            Assert.Equal(string.Join('\n', secondMoveExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard2), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 1));
-            Assert.Equal(string.Join('\n', thirdMoveExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard3), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 1));
-            Assert.Equal(string.Join('\n', fourthMoveExpected), game.DescribeBoard());
-
-            game.TakeTurn(new Coordinate(1, 3));
-            Assert.Equal(string.Join('\n', fifthMoveExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard4), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 2));
-            Assert.Equal(string.Join('\n', sixthMoveExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard5), game.DescribeBoard());
 
-            Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 2)));
+            game.TakeTurn(new Coordinate(3, 2));
+            Assert.Equal(string.Join('\n', expectedBoard6), game.DescribeBoard());
+
+            Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 3)));
             Assert.IsType<GameWon>(game.GameState);
-            Assert.Equal(string.Join('\n', seventhMoveExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedFinalBoard), game.DescribeBoard());
         }
 
         [Fact]
         public void Player2CanWinTheGame()
         {
-            string[] initalBoardExpected =
+            string[] expectedInitialBoard =
             {
                 ". . .",
                 ". . .",
                 ". . ."
             };
 
-            string[] expectedState2 =
+            string[] expectedBoard1 =
             {
                 "X . .",
                 ". . .",
                 ". . ."
             };
 
-            string[] expectedState3 =
+            string[] expectedBoard2 =
             {
                 "X . .",
                 ". . .",
                 ". . O"
             };
 
-            string[] expectedState4 =
+            string[] expectedBoard4 =
             {
                 "X . .",
                 ". . .",
                 "X . O"
             };
 
-            string[] expectedState5 =
+            string[] expectedBoard5 =
             {
                 "X . .",
                 ". . O",
                 "X . O"
             };
 
-            string[] expectedState6 =
+            string[] expectedBoard6 =
             {
                 "X . .",
                 ". X O",
                 "X . O"
             };
 
-            string[] expectedState7 =
+            string[] expectedBoard7 =
             {
                 "X . O",
-                ". . O",
+                ". X O",
                 "X . O"
             };
 
             var game = new TicTacToeGame();
-            Assert.Equal(string.Join('\n', initalBoardExpected), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedInitialBoard), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 1));
-            Assert.Equal(string.Join('\n', expectedState2), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard1), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 3));
-            Assert.Equal(string.Join('\n', expectedState3), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard2), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 1));
-            Assert.Equal(string.Join('\n', expectedState4), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard4), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 3));
-            Assert.Equal(string.Join('\n', expectedState5), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard5), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 2));
-            Assert.Equal(string.Join('\n', expectedState6), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard6), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 3)));
             Assert.IsType<GameWon>(game.GameState);
-            Assert.Equal(string.Join('\n', expectedState7), game.DescribeBoard());
+            Assert.Equal(string.Join('\n', expectedBoard7), game.DescribeBoard());
         }
     }
 }
