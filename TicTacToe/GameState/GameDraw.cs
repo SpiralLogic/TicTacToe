@@ -2,6 +2,6 @@
 {
     public class GameDraw : IGameState
     {
-        public string Describe => $"Draw";
+        public string Describe => "Draw";
     }
 }
