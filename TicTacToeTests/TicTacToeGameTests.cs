@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TicTacToe;
 using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
@@ -9,6 +8,22 @@ namespace TicTacToeTests
 {
     public class TicTacToeGameTests
     {
+        [Fact]
+        public void EnteringInvalidMoveHasInvalidTurnStatus()
+        {
+            string[] expected =
+            {
+                ". . .",
+                ". . .",
+                ". . ."
+            };
+
+            var game = new TicTacToeGame();
+
+            Assert.IsType<CoordinateInvalid>(game.TakeTurn(new Coordinate(0, 1)));
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
+        }
+
         [Fact]
         public void InitialGameHasEmptyBoard()
         {
@@ -25,26 +40,12 @@ namespace TicTacToeTests
         }
 
         [Fact]
-        public void TakingValidTurnPlacesPlayerSymbolInCorrectPosition()
+        public void PlacingAPieceInAPositionAlreadyOccupiedGivesError()
         {
-            string[] before =
-            {
-                ". . .",
-                ". . .",
-                ". . ."
-            };
-
-            string[] expected =
-            {
-                "X . .",
-                ". . .",
-                ". . ."
-            };
-
             var game = new TicTacToeGame();
 
-            Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 1)));
-            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
+            game.TakeTurn(new Coordinate(1, 1));
+            Assert.IsType<CoordinateAlreadyTaken>(game.TakeTurn(new Coordinate(1, 1)));
         }
 
         [Fact]
@@ -76,28 +77,26 @@ namespace TicTacToeTests
         }
 
         [Fact]
-        public void EnteringInvalidMoveHasInvalidTurnStatus()
+        public void TakingValidTurnPlacesPlayerSymbolInCorrectPosition()
         {
-            string[] expected =
+            string[] before =
             {
                 ". . .",
                 ". . .",
                 ". . ."
             };
 
+            string[] expected =
+            {
+                "X . .",
+                ". . .",
+                ". . ."
+            };
+
             var game = new TicTacToeGame();
 
-            Assert.IsType<CoordinateInvalid>(game.TakeTurn(new Coordinate(0, 1)));
+            Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 1)));
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
-        }
-
-        [Fact]
-        public void PlacingAPieceInAPositionAlreadyOccupiedGivesError()
-        {
-            var game = new TicTacToeGame();
-
-            game.TakeTurn(new Coordinate(1, 1));
-            Assert.IsType<CoordinateAlreadyTaken>(game.TakeTurn(new Coordinate(1, 1)));
         }
 
         [Fact]
@@ -112,61 +111,8 @@ namespace TicTacToeTests
 
             var game = new TicTacToeGame();
             game.ForfeitGame();
-            
+
             Assert.IsType<GameForfeit>(game.GameState);
-            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
-        }
-
-        [Fact]
-        public void TheGameIsWonWhenAPlayerTakesAWholeRow()
-        {
-            string[] expected =
-            {
-                "X X X",
-                ". . .",
-                "O . O"
-            };
-
-            var game = new TicTacToeGame();
-
-            game.TakeTurn(new Coordinate(1, 1));
-            game.TakeTurn(new Coordinate(3, 1));
-            game.TakeTurn(new Coordinate(1, 2));
-            game.TakeTurn(new Coordinate(3, 3));
-
-            var statusBeforeWinningTurn = game.GameState;
-            game.TakeTurn(new Coordinate(1, 3));
-
-            Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
-            Assert.IsType<GameWon>(game.GameState);
-            Assert.Equal('X', game.CurrentPlayer.Symbol);
-            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
-        }
-
-        [Fact]
-        public void TheGameIsWonWhenAPlayerTakesAWholeColumn()
-        {
-            string[] expected =
-            {
-                "X O X",
-                ". O .",
-                "X O ."
-            };
-
-            var game = new TicTacToeGame();
-
-            game.TakeTurn(new Coordinate(1, 1));
-            game.TakeTurn(new Coordinate(1, 2));
-            game.TakeTurn(new Coordinate(1, 3));
-            game.TakeTurn(new Coordinate(2, 2));
-            game.TakeTurn(new Coordinate(3, 1));
-
-            var statusBeforeWinningTurn = game.GameState;
-            game.TakeTurn(new Coordinate(3, 2));
-
-            Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
-            Assert.Equal('O', game.CurrentPlayer.Symbol);
-            Assert.IsType<GameWon>(game.GameState);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
@@ -219,6 +165,59 @@ namespace TicTacToeTests
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             //Assert.Equal('X', game.CurrentPlayer.Symbol);
             Assert.IsType<GameWon>(game.GameState);
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
+        }
+
+        [Fact]
+        public void TheGameIsWonWhenAPlayerTakesAWholeColumn()
+        {
+            string[] expected =
+            {
+                "X O X",
+                ". O .",
+                "X O ."
+            };
+
+            var game = new TicTacToeGame();
+
+            game.TakeTurn(new Coordinate(1, 1));
+            game.TakeTurn(new Coordinate(1, 2));
+            game.TakeTurn(new Coordinate(1, 3));
+            game.TakeTurn(new Coordinate(2, 2));
+            game.TakeTurn(new Coordinate(3, 1));
+
+            var statusBeforeWinningTurn = game.GameState;
+            game.TakeTurn(new Coordinate(3, 2));
+
+            Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
+            Assert.Equal('O', game.CurrentPlayer.Symbol);
+            Assert.IsType<GameWon>(game.GameState);
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
+        }
+
+        [Fact]
+        public void TheGameIsWonWhenAPlayerTakesAWholeRow()
+        {
+            string[] expected =
+            {
+                "X X X",
+                ". . .",
+                "O . O"
+            };
+
+            var game = new TicTacToeGame();
+
+            game.TakeTurn(new Coordinate(1, 1));
+            game.TakeTurn(new Coordinate(3, 1));
+            game.TakeTurn(new Coordinate(1, 2));
+            game.TakeTurn(new Coordinate(3, 3));
+
+            var statusBeforeWinningTurn = game.GameState;
+            game.TakeTurn(new Coordinate(1, 3));
+
+            Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
+            Assert.IsType<GameWon>(game.GameState);
+            Assert.Equal('X', game.CurrentPlayer.Symbol);
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
     }

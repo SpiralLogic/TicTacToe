@@ -2,6 +2,6 @@
 {
     public interface ITurnStatus
     {
-        string Status { get; }
+        string Describe { get; }
     }
 }

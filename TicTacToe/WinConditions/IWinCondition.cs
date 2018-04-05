@@ -1,5 +1,4 @@
-﻿
-namespace TicTacToe.WinConditions
+﻿namespace TicTacToe.WinConditions
 {
     internal interface IWinCondition
     {

@@ -2,6 +2,6 @@
 {
     public class CoordinateInvalid : ITurnStatus
     {
-        public string Status => "Invalid move!";
+        public string Describe => "Invalid move!";
     }
 }

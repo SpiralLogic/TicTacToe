@@ -1,25 +1,21 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Coordinate = System.Drawing.Point;
+﻿using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
     internal class Board
     {
-        private readonly Player[,] _board;
         private static readonly Player EmptyPosition = new Player("", '.');
-        public int Size => _board.GetLength(0);
+        private readonly Player[,] _board;
 
         internal Board(int size)
         {
             _board = new Player[size, size];
             for (var row = 0; row < _board.GetLength(0); row++)
-            {
-                for (var cell = 0; cell < _board.GetLength(1); cell++)
-                {
-                    _board[row, cell] = EmptyPosition;
-                }
-            }
+            for (var cell = 0; cell < _board.GetLength(1); cell++)
+                _board[row, cell] = EmptyPosition;
         }
+
+        public int Size => _board.GetLength(0);
 
         public void SetPosition(Coordinate coordinate, Player player)
         {
@@ -46,10 +42,7 @@ namespace TicTacToe
             var output = string.Empty;
             for (var row = 0; row < _board.GetLength(0); row++)
             {
-                for (var cell = 0; cell < _board.GetLength(1); cell++)
-                {
-                    output += _board[row, cell].Symbol + " ";
-                }
+                for (var cell = 0; cell < _board.GetLength(1); cell++) output += _board[row, cell].Symbol + " ";
 
                 output = output.TrimEnd() + '\n';
             }

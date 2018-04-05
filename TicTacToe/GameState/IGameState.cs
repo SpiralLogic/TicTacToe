@@ -2,17 +2,18 @@
 {
     public interface IGameState
     {
-        string Status { get; }
+        string Describe { get; }
     }
 
     public abstract class AbstractGameState : IGameState
     {
-        public abstract string Status { get; }
         protected readonly Player Player;
 
         internal AbstractGameState(Player player)
         {
             Player = player;
         }
+
+        public abstract string Describe { get; }
     }
 }

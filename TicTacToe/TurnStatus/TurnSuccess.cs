@@ -2,6 +2,6 @@
 {
     public class TurnSuccess : ITurnStatus
     {
-        public string Status => "Move Accepted!";
+        public string Describe => "Move Accepted!";
     }
 }

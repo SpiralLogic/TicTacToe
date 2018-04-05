@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using TicTacToe.WinConditions;
@@ -10,15 +8,11 @@ namespace TicTacToe
 {
     public class TicTacToeGame
     {
-        private Board _board;
-        private int _numberOfTurns = 0;
         private readonly Player _player1;
         private readonly Player _player2;
+        private readonly Board _board;
+        private int _numberOfTurns;
         private HashSet<IWinCondition> _winConditions;
-
-        public Player CurrentPlayer { get; private set; }
-        public IGameState GameState { get; private set; }
-        public IEnumerable<char> DescribeBoard() => _board.ToString();
 
         public TicTacToeGame(int boardSize = 3)
         {
@@ -31,17 +25,19 @@ namespace TicTacToe
             GameState = new GameInProgress(CurrentPlayer);
         }
 
+        public Player CurrentPlayer { get; private set; }
+        public IGameState GameState { get; private set; }
+
+        public IEnumerable<char> DescribeBoard()
+        {
+            return _board.ToString();
+        }
+
         public ITurnStatus TakeTurn(Coordinate coordinate)
         {
-            if (!_board.IsOnBoard(coordinate))
-            {
-                return new CoordinateInvalid();
-            }
+            if (!_board.IsOnBoard(coordinate)) return new CoordinateInvalid();
 
-            if (!_board.IsEmptyAt(coordinate))
-            {
-                return new CoordinateAlreadyTaken();
-            }
+            if (!_board.IsEmptyAt(coordinate)) return new CoordinateAlreadyTaken();
 
             _board.SetPosition(coordinate, CurrentPlayer);
 
@@ -59,13 +55,11 @@ namespace TicTacToe
         {
             _numberOfTurns++;
             foreach (var winCondition in _winConditions)
-            {
                 if (winCondition.HasWon(CurrentPlayer, _board))
                 {
                     GameState = new GameWon(CurrentPlayer);
                     return;
                 }
-            }
 
             if (_numberOfTurns == _board.Size * _board.Size)
             {
@@ -79,10 +73,7 @@ namespace TicTacToe
 
         private void SwitchPlayers()
         {
-            if (GameState is GameInProgress)
-            {
-                CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
-            }
+            if (GameState is GameInProgress) CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
         }
 
         private void AddWinConditions()
@@ -91,7 +82,7 @@ namespace TicTacToe
             {
                 new HorizontalWinCondition(),
                 new VerticalWinCondition(),
-                new DiagonalWinCondition(),
+                new DiagonalWinCondition()
             };
         }
     }
