@@ -35,7 +35,7 @@ namespace TicTacToeConsole
 
             var input = Console.ReadLine();
             Console.WriteLine();
-            
+
             if (!IsValidInput(input))
             {
                 Console.WriteLine("Invalid Input");
@@ -52,7 +52,7 @@ namespace TicTacToeConsole
 
             var coordinate = CreateCoordinate(input);
             var turnStatus = _game.TakeTurn(coordinate);
-            
+
             Console.Write($"{turnStatus.Describe} ");
         }
 

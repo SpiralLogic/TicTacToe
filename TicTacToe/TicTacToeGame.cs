@@ -8,9 +8,9 @@ namespace TicTacToe
 {
     public class TicTacToeGame
     {
+        private readonly Board _board;
         private readonly Player _player1;
         private readonly Player _player2;
-        private readonly Board _board;
         private int _numberOfTurns;
         private HashSet<IWinCondition> _winConditions;
 
