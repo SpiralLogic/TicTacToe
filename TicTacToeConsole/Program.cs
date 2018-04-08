@@ -20,8 +20,11 @@ namespace TicTacToeConsole
         {
             Console.WriteLine("Welcome to Tic Tac Toe!");
 
-            while (_game.GameState is GameInProgress) NextTurn();
-
+            while (_game.GameState is GameInProgress)
+            {
+                NextTurn();
+            }
+            
             Console.WriteLine(_game.GameState.Describe);
             Console.WriteLine(_game.DescribeBoard());
         }
