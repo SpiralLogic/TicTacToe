@@ -35,9 +35,15 @@ namespace TicTacToe
 
         public ITurnStatus TakeTurn(Coordinate coordinate)
         {
-            if (!_board.IsOnBoard(coordinate)) return new CoordinateInvalid();
+            if (!_board.IsOnBoard(coordinate))
+            {
+                return new CoordinateInvalid();
+            }
 
-            if (!_board.IsEmptyAt(coordinate)) return new CoordinateAlreadyTaken();
+            if (!_board.IsEmptyAt(coordinate))
+            {
+                return new CoordinateAlreadyTaken();
+            }
 
             _board.SetPosition(coordinate, CurrentPlayer);
 
@@ -55,11 +61,11 @@ namespace TicTacToe
         {
             _numberOfTurns++;
             foreach (var winCondition in _winConditions)
-                if (winCondition.HasWon(CurrentPlayer, _board))
-                {
-                    GameState = new GameWon(CurrentPlayer);
-                    return;
-                }
+            {
+                if (!winCondition.HasWon(CurrentPlayer, _board)) continue;
+                GameState = new GameWon(CurrentPlayer);
+                return;
+            }
 
             if (_numberOfTurns == _board.Size * _board.Size)
             {
@@ -67,13 +73,17 @@ namespace TicTacToe
                 return;
             }
 
-            SwitchPlayers();
+            if (GameState is GameInProgress)
+            {
+                SwitchPlayers();
+            }
+
             GameState = new GameInProgress(CurrentPlayer);
         }
 
         private void SwitchPlayers()
         {
-            if (GameState is GameInProgress) CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
+            CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
         }
 
         private void AddWinConditions()

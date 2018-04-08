@@ -47,8 +47,11 @@ namespace TicTacToe
             var output = string.Empty;
             for (var row = 0; row < _board.GetLength(0); row++)
             {
-                for (var cell = 0; cell < _board.GetLength(1); cell++) output += _board[row, cell].Symbol + " ";
-
+                for (var cell = 0; cell < _board.GetLength(1); cell++)
+                {
+                    output += _board[row, cell].Symbol + " ";
+                }
+                
                 output = output.TrimEnd() + '\n';
             }
 
