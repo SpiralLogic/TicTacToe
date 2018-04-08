@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
@@ -12,6 +13,8 @@ namespace TicTacToe
 
         internal Board(int size, IBoardEntity emptyBoardEntity = null)
         {
+            if (size < 3) throw new ArgumentOutOfRangeException(nameof(size));
+
             _board = new IBoardEntity[size, size];
             _emptyCoordinate = emptyBoardEntity ?? new EmptyCoordinate('.');
 

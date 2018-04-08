@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.GameState
 {
-    public class GameWon : AbstractGameState
+    public class GameWon : AbstractGameStateWithPlayer
     {
         public GameWon(Player player) : base(player)
         {

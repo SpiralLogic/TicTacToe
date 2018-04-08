@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe.GameState
 {
-    public class GameForfeit : AbstractGameState
+    public class GameForfeit : AbstractGameStateWithPlayer
     {
         public GameForfeit(Player player) : base(player)
         {
