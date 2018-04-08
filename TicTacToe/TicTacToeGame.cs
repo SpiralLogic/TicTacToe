@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using TicTacToe.WinConditions;
@@ -11,7 +12,6 @@ namespace TicTacToe
         private readonly Board _board;
         private readonly Player _player1;
         private readonly Player _player2;
-        private int _numberOfTurns;
         private HashSet<IWinCondition> _winConditions;
 
         public Player CurrentPlayer { get; private set; }
@@ -59,15 +59,13 @@ namespace TicTacToe
 
         private void UpdateGameState()
         {
-            _numberOfTurns++;
-            foreach (var winCondition in _winConditions)
+            if (IsGameWon())
             {
-                if (!winCondition.HasWon(CurrentPlayer, _board)) continue;
                 GameState = new GameWon(CurrentPlayer);
                 return;
             }
 
-            if (_numberOfTurns == _board.Size * _board.Size)
+            if (_board.IsFull())
             {
                 GameState = new GameDraw();
                 return;
@@ -79,6 +77,11 @@ namespace TicTacToe
             }
 
             GameState = new GameInProgress(CurrentPlayer);
+        }
+
+        private bool IsGameWon()
+        {
+            return _winConditions.Any(wc => wc.HasWon(CurrentPlayer, _board));
         }
 
         private void SwitchPlayers()

@@ -1,10 +1,10 @@
 ﻿namespace TicTacToe
 {
-    internal class EmptyPosition : IBoardEntity
+    internal class EmptyCoordinate : IBoardEntity
     {
         public char Symbol { get; }
 
-        internal EmptyPosition(char symbol)
+        internal EmptyCoordinate(char symbol)
         {
             Symbol = symbol;
         }
