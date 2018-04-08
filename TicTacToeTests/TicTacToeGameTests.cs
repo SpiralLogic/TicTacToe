@@ -9,6 +9,21 @@ namespace TicTacToeTests
     public class TicTacToeGameTests
     {
         [Fact]
+        public void InitialGameHasEmptyBoard()
+        {
+            string[] expected =
+            {
+                ". . .",
+                ". . .",
+                ". . ."
+            };
+
+            var game = new TicTacToeGame();
+
+            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
+        }
+
+        [Fact]
         public void EnteringInvalidMoveHasInvalidTurnStatus()
         {
             string[] expected =
@@ -25,17 +40,25 @@ namespace TicTacToeTests
         }
 
         [Fact]
-        public void InitialGameHasEmptyBoard()
+        public void TakingValidTurnPlacesPlayerSymbolInCorrectPosition()
         {
-            string[] expected =
+            string[] before =
             {
                 ". . .",
                 ". . .",
                 ". . ."
             };
 
+            string[] expected =
+            {
+                "X . .",
+                ". . .",
+                ". . ."
+            };
+
             var game = new TicTacToeGame();
 
+            Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 1)));
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
@@ -73,29 +96,6 @@ namespace TicTacToeTests
 
             Assert.Equal('X', firstPlayer.Symbol);
             Assert.Equal('O', secondPlayer.Symbol);
-            Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
-        }
-
-        [Fact]
-        public void TakingValidTurnPlacesPlayerSymbolInCorrectPosition()
-        {
-            string[] before =
-            {
-                ". . .",
-                ". . .",
-                ". . ."
-            };
-
-            string[] expected =
-            {
-                "X . .",
-                ". . .",
-                ". . ."
-            };
-
-            var game = new TicTacToeGame();
-
-            Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 1)));
             Assert.Equal(string.Join('\n', expected), game.DescribeBoard());
         }
 
@@ -169,7 +169,7 @@ namespace TicTacToeTests
         }
 
         [Fact]
-        public void TheGameIsWonWhenAPlayerTakesAWholeColumn()
+        public void TheGameIsWonWhenAPlayerOccupiesColumn()
         {
             string[] expected =
             {
@@ -196,7 +196,7 @@ namespace TicTacToeTests
         }
 
         [Fact]
-        public void TheGameIsWonWhenAPlayerTakesAWholeRow()
+        public void TheGameIsWonWhenAPlayerOccupiesRow()
         {
             string[] expected =
             {
