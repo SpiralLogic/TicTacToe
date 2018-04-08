@@ -2,7 +2,7 @@
 {
     public class Player : IBoardEntity
     {
-        internal string Name { get; }
+        public string Name { get; }
         public char Symbol { get; }
         
         internal Player(string name, char symbol) 
