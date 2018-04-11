@@ -21,7 +21,8 @@ namespace TicTacToe
         public IGameState GameState { get; private set; }
         [DataMember]  
         private readonly Board _board;
-        private ISet<IWinCondition> WinConditions => AddWinConditions();
+        
+        private IEnumerable<IWinCondition> WinConditions => AddWinConditions();
 
         public TicTacToeGame(int size, Player player1, Player player2)
         {
@@ -36,6 +37,11 @@ namespace TicTacToe
 
         public ITurnStatus TakeTurn(Coordinate coordinate)
         {
+            if (!(GameState is GameInProgress))
+            {
+                return new TurnGameOver();
+            }
+            
             if (!_board.IsOnBoard(coordinate))
             {
                 return new CoordinateInvalid();
@@ -95,7 +101,7 @@ namespace TicTacToe
             CurrentPlayer = Equals(CurrentPlayer, _player1) ? _player2 : _player1;
         }
 
-        private ISet<IWinCondition> AddWinConditions()
+        private static ISet<IWinCondition> AddWinConditions()
         {
             return new HashSet<IWinCondition>
             {

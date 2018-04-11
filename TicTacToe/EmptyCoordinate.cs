@@ -17,18 +17,5 @@ namespace TicTacToe
         {
             return Symbol == other.Symbol;
         }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((EmptyCoordinate) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return Symbol.GetHashCode();
-        }
     }
 }

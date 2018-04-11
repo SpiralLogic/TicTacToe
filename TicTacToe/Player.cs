@@ -6,9 +6,10 @@ namespace TicTacToe
     public class Player : IBoardEntity
     {
         [DataMember]  
-        public string Name { get; protected set; }
+        public string Name { get; private set; }
+     
         [DataMember]  
-        public char Symbol { get; protected set; }
+        public char Symbol { get; private set; }
         
         public Player(string name, char symbol) 
         {
