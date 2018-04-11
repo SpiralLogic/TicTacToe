@@ -8,7 +8,7 @@ namespace TicTacToeConsole
     internal class Program
     {
         private const string GameForfeitChar = "q";
-        private readonly TicTacToeGame _game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+        private readonly TicTacToeGame _game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
         private static void Main(string[] args)
         {

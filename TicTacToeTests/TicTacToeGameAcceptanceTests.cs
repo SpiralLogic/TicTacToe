@@ -66,7 +66,7 @@ namespace TicTacToeTests
                 "X O O"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
             Assert.Equal(string.Join('\n', expectedInitialBoard), game.Board.Describe());
 
             game.TakeTurn(new Coordinate(1, 1));
@@ -144,7 +144,7 @@ namespace TicTacToeTests
                 "X . O"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
             Assert.Equal(string.Join('\n', expectedInitialBoard), game.Board.Describe());
 
             game.TakeTurn(new Coordinate(1, 1));
@@ -239,7 +239,7 @@ namespace TicTacToeTests
                 "X O O"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
             Assert.Equal(string.Join('\n', expectedInitalBoard), game.Board.Describe());
 
             game.TakeTurn(new Coordinate(2, 2));

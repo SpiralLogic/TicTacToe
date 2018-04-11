@@ -18,7 +18,7 @@ namespace TicTacToeTests
                 ". . ."
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             Assert.Equal(string.Join('\n', expected), game.Board.Describe());
         }
@@ -33,7 +33,7 @@ namespace TicTacToeTests
                 ". . ."
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             Assert.IsType<CoordinateInvalid>(game.TakeTurn(new Coordinate(0, 1)));
             Assert.Equal(string.Join('\n', expected), game.Board.Describe());
@@ -56,7 +56,7 @@ namespace TicTacToeTests
                 ". . ."
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 1)));
             Assert.Equal(string.Join('\n', expected), game.Board.Describe());
@@ -65,7 +65,7 @@ namespace TicTacToeTests
         [Fact]
         public void PlacingAPieceInAPositionAlreadyOccupiedGivesError()
         {
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             game.TakeTurn(new Coordinate(1, 1));
             Assert.IsType<CoordinateAlreadyTaken>(game.TakeTurn(new Coordinate(1, 1)));
@@ -81,7 +81,7 @@ namespace TicTacToeTests
                 ". . ."
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             var firstPlayer = game.CurrentPlayer;
 
@@ -109,7 +109,7 @@ namespace TicTacToeTests
                 ". . ."
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
             game.ForfeitGame();
 
             Assert.IsType<GameForfeit>(game.GameState);
@@ -126,7 +126,7 @@ namespace TicTacToeTests
                 "X . ."
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             game.TakeTurn(new Coordinate(3, 1));
             game.TakeTurn(new Coordinate(1, 1));
@@ -152,7 +152,7 @@ namespace TicTacToeTests
                 ". . X"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             game.TakeTurn(new Coordinate(1, 1));
             game.TakeTurn(new Coordinate(1, 3));
@@ -178,7 +178,7 @@ namespace TicTacToeTests
                 "X O ."
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             game.TakeTurn(new Coordinate(1, 1));
             game.TakeTurn(new Coordinate(1, 2));
@@ -205,7 +205,7 @@ namespace TicTacToeTests
                 "O . O"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 1", 'O'));
+            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
 
             game.TakeTurn(new Coordinate(1, 1));
             game.TakeTurn(new Coordinate(3, 1));
