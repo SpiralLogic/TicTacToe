@@ -1,5 +1,8 @@
-﻿namespace TicTacToe.GameState
+﻿using System.Runtime.Serialization;
+
+namespace TicTacToe.GameState
 {
+    [DataContract]  
     public class GameForfeit : AbstractGameStateWithPlayer
     {
         public GameForfeit(Player player) : base(player)

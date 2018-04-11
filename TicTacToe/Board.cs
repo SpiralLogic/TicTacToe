@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
+    [DataContract]  
     public class Board
     {
+        [DataMember]  
         private readonly IBoardEntity _emptyCoordinate;
-        private readonly IBoardEntity[,] _board;
+        [DataMember]  
+        private readonly IBoardEntity[][] _board;
 
         public int Size => _board.GetLength(0);
 
@@ -16,51 +20,52 @@ namespace TicTacToe
         {
             if (size < 3) throw new ArgumentOutOfRangeException(nameof(size));
 
-            _board = new IBoardEntity[size, size];
+            _board = new IBoardEntity[size][];
             _emptyCoordinate = emptyBoardEntity ?? new EmptyCoordinate('.');
 
-            for (var row = 0; row < _board.GetLength(0); row++)
+            for (var row = 0; row < size; row++)
             {
-                for (var cell = 0; cell < _board.GetLength(1); cell++)
+                _board[row] = new IBoardEntity[size];
+                for (var column = 0; column < size; column++)
                 {
-                    _board[row, cell] = _emptyCoordinate;
+                    _board[row][column] = _emptyCoordinate;
                 }
             }
         }
 
         public void SetPosition(Coordinate coordinate, Player player)
         {
-            _board[coordinate.X - 1, coordinate.Y - 1] = player;
+            _board[coordinate.X - 1][coordinate.Y - 1] = player;
         }
 
         public bool IsEmptyAt(Coordinate coordinate)
         {
-            return _board[coordinate.X - 1, coordinate.Y - 1] == _emptyCoordinate;
+            return _board[coordinate.X - 1][coordinate.Y - 1].Symbol == _emptyCoordinate.Symbol;
         }
 
         public bool IsOnBoard(Coordinate coordinate)
         {
-            return coordinate.X >= 1 && coordinate.X <= _board.GetLength(0) && coordinate.Y >= 1 && coordinate.Y <= _board.GetLength(0);
+            return coordinate.X >= 1 && coordinate.X <= Size && coordinate.Y >= 1 && coordinate.Y <= Size;
         }
 
         public bool IsFull()
         {
-            return _board.Cast<IBoardEntity>().All(coordinate => coordinate != _emptyCoordinate);
+            return _board.SelectMany(b => b).All(coordinate => coordinate.Symbol != _emptyCoordinate.Symbol);
         }
 
         public IBoardEntity GetEntityAt(Coordinate coordinate)
         {
-            return _board[coordinate.X - 1, coordinate.Y - 1];
+            return _board[coordinate.X - 1][coordinate.Y - 1];
         }
 
-        public string Describe()
+        public override string ToString()
         {
             var output = string.Empty;
-            for (var row = 0; row < _board.GetLength(0); row++)
+            for (var row = 0; row < Size; row++)
             {
-                for (var cell = 0; cell < _board.GetLength(1); cell++)
+                for (var column = 0; column < Size; column++)
                 {
-                    output += _board[row, cell].Symbol + " ";
+                    output += _board[row][column].Symbol + " ";
                 }
 
                 output = output.TrimEnd() + '\n';

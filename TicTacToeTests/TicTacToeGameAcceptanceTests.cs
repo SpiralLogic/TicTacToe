@@ -66,30 +66,30 @@ namespace TicTacToeTests
                 "X O O"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
-            Assert.Equal(string.Join('\n', expectedInitialBoard), game.Board.Describe());
+            var game = new TicTacToeGame(3, new Player("Player 1", 'X'), new Player("Player 2", 'O'));
+            Assert.Equal(string.Join('\n', expectedInitialBoard), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 1));
-            Assert.Equal(string.Join('\n', expectedBoard1), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard1), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 3));
-            Assert.Equal(string.Join('\n', expectedBoard2), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard2), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 1));
-            Assert.Equal(string.Join('\n', expectedBoard3), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard3), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 1));
-            Assert.Equal(string.Join('\n', expectedBoard4), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard4), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 2));
-            Assert.Equal(string.Join('\n', expectedBoard5), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard5), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 2));
-            Assert.Equal(string.Join('\n', expectedBoard6), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard6), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 3)));
             Assert.IsType<GameWon>(game.GameState);
-            Assert.Equal(string.Join('\n', expectedFinalBoard), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedFinalBoard), game.DescribeBoard());
         }
 
         [Fact]
@@ -144,27 +144,27 @@ namespace TicTacToeTests
                 "X . O"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
-            Assert.Equal(string.Join('\n', expectedInitialBoard), game.Board.Describe());
+            var game = new TicTacToeGame(3, new Player("Player 1", 'X'), new Player("Player 2", 'O'));
+            Assert.Equal(string.Join('\n', expectedInitialBoard), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 1));
-            Assert.Equal(string.Join('\n', expectedBoard1), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard1), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 3));
-            Assert.Equal(string.Join('\n', expectedBoard2), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard2), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 1));
-            Assert.Equal(string.Join('\n', expectedBoard4), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard4), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 3));
-            Assert.Equal(string.Join('\n', expectedBoard5), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard5), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 2));
-            Assert.Equal(string.Join('\n', expectedBoard6), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard6), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(1, 3)));
             Assert.IsType<GameWon>(game.GameState);
-            Assert.Equal(string.Join('\n', expectedBoard7), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard7), game.DescribeBoard());
         }
 
         [Fact]
@@ -239,36 +239,36 @@ namespace TicTacToeTests
                 "X O O"
             };
 
-            var game = new TicTacToeGame(new Board(3), new Player("Player 1", 'X'), new Player("Player 2", 'O'));
-            Assert.Equal(string.Join('\n', expectedInitalBoard), game.Board.Describe());
+            var game = new TicTacToeGame(3, new Player("Player 1", 'X'), new Player("Player 2", 'O'));
+            Assert.Equal(string.Join('\n', expectedInitalBoard), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 2));
-            Assert.Equal(string.Join('\n', expectedBoard1), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard1), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 3));
-            Assert.Equal(string.Join('\n', expectedBoard3), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard3), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 3));
-            Assert.Equal(string.Join('\n', expectedBoard4), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard4), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(3, 2));
-            Assert.Equal(string.Join('\n', expectedBoard5), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard5), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 2));
-            Assert.Equal(string.Join('\n', expectedBoard6), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard6), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(2, 1));
-            Assert.Equal(string.Join('\n', expectedBoard7), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard7), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 1));
-            Assert.Equal(string.Join('\n', expectedBoard8), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard8), game.DescribeBoard());
 
             game.TakeTurn(new Coordinate(1, 3));
-            Assert.Equal(string.Join('\n', expectedBoard9), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard9), game.DescribeBoard());
 
             Assert.IsType<TurnSuccess>(game.TakeTurn(new Coordinate(3, 1)));
             Assert.IsType<GameDraw>(game.GameState);
-            Assert.Equal(string.Join('\n', expectedBoard10), game.Board.Describe());
+            Assert.Equal(string.Join('\n', expectedBoard10), game.DescribeBoard());
         }
 }
 }

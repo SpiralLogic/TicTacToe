@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using TicTacToe.WinConditions;
@@ -7,21 +8,26 @@ using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
+    [DataContract]  
     public class TicTacToeGame
     {
+        [DataMember]  
         private readonly Player _player1;
+        [DataMember]  
         private readonly Player _player2;
-        private HashSet<IWinCondition> _winConditions;
-
+        [DataMember]  
         public Player CurrentPlayer { get; private set; }
+        [DataMember]  
         public IGameState GameState { get; private set; }
-        public readonly Board Board;
+        [DataMember]  
+        private readonly Board _board;
+        private ISet<IWinCondition> WinConditions => AddWinConditions();
 
-        public TicTacToeGame(Board board, Player player1, Player player2)
+        public TicTacToeGame(int size, Player player1, Player player2)
         {
             AddWinConditions();
 
-            Board = board;
+            _board = new Board(size);
             _player1 = player1;
             _player2 = player2;
             CurrentPlayer = _player1;
@@ -30,17 +36,17 @@ namespace TicTacToe
 
         public ITurnStatus TakeTurn(Coordinate coordinate)
         {
-            if (!Board.IsOnBoard(coordinate))
+            if (!_board.IsOnBoard(coordinate))
             {
                 return new CoordinateInvalid();
             }
 
-            if (!Board.IsEmptyAt(coordinate))
+            if (!_board.IsEmptyAt(coordinate))
             {
                 return new CoordinateAlreadyTaken();
             }
-
-            Board.SetPosition(coordinate, CurrentPlayer);
+            
+            _board.SetPosition(coordinate, CurrentPlayer);
 
             UpdateGameState();
 
@@ -52,6 +58,11 @@ namespace TicTacToe
             GameState = new GameForfeit(CurrentPlayer);
         }
 
+        public string DescribeBoard()
+        {
+            return _board.ToString();
+        }
+        
         private void UpdateGameState()
         {
             if (IsGameWon())
@@ -60,7 +71,7 @@ namespace TicTacToe
                 return;
             }
 
-            if (Board.IsFull())
+            if (_board.IsFull())
             {
                 GameState = new GameDraw();
                 return;
@@ -76,17 +87,17 @@ namespace TicTacToe
 
         private bool IsGameWon()
         {
-            return _winConditions.Any(wc => wc.HasWon(CurrentPlayer, Board));
+            return WinConditions.Any(wc => wc.HasWon(CurrentPlayer, _board));
         }
 
         private void SwitchPlayers()
         {
-            CurrentPlayer = CurrentPlayer == _player1 ? _player2 : _player1;
+            CurrentPlayer = Equals(CurrentPlayer, _player1) ? _player2 : _player1;
         }
 
-        private void AddWinConditions()
+        private ISet<IWinCondition> AddWinConditions()
         {
-            _winConditions = new HashSet<IWinCondition>
+            return new HashSet<IWinCondition>
             {
                 new HorizontalWinCondition(),
                 new VerticalWinCondition(),

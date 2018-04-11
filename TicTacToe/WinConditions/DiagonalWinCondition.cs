@@ -11,8 +11,8 @@ namespace TicTacToe.WinConditions
             
             for (var i = 1; i <= board.Size; i++)
             {
-                hasWonLeftRoRight &= player == board.GetEntityAt(new Coordinate(i, i));
-                hasWonRightToLeft &= player == board.GetEntityAt(new Coordinate(i, 4 - i));
+                hasWonLeftRoRight &= Equals(player, board.GetEntityAt(new Coordinate(i, i)));
+                hasWonRightToLeft &= Equals(player, board.GetEntityAt(new Coordinate(i, 4 - i)));
             }
 
             return hasWonLeftRoRight || hasWonRightToLeft;

@@ -18,7 +18,7 @@ namespace TicTacToe.WinConditions
         {
             for (var column = 1; column <= board.Size; column++)
             {
-                if (player != board.GetEntityAt(new Coordinate(x, column)))
+                if (!Equals(player, board.GetEntityAt(new Coordinate(x, column))))
                 {
                     return false;
                 }
