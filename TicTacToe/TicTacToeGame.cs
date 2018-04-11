@@ -9,43 +9,38 @@ namespace TicTacToe
 {
     public class TicTacToeGame
     {
-        private readonly Board _board;
         private readonly Player _player1;
         private readonly Player _player2;
         private HashSet<IWinCondition> _winConditions;
 
         public Player CurrentPlayer { get; private set; }
         public IGameState GameState { get; private set; }
+        public readonly Board Board;
 
-        public TicTacToeGame(int boardSize = 3)
+        public TicTacToeGame(Board board, Player player1, Player player2)
         {
             AddWinConditions();
 
-            _board = new Board(boardSize);
-            _player1 = new Player("Player 1", 'X');
-            _player2 = new Player("Player 2", 'O');
+            Board = board;
+            _player1 = player1;
+            _player2 = player2;
             CurrentPlayer = _player1;
             GameState = new GameInProgress(CurrentPlayer);
         }
 
-        public IEnumerable<char> DescribeBoard()
-        {
-            return _board.ToString();
-        }
-
         public ITurnStatus TakeTurn(Coordinate coordinate)
         {
-            if (!_board.IsOnBoard(coordinate))
+            if (!Board.IsOnBoard(coordinate))
             {
                 return new CoordinateInvalid();
             }
 
-            if (!_board.IsEmptyAt(coordinate))
+            if (!Board.IsEmptyAt(coordinate))
             {
                 return new CoordinateAlreadyTaken();
             }
 
-            _board.SetPosition(coordinate, CurrentPlayer);
+            Board.SetPosition(coordinate, CurrentPlayer);
 
             UpdateGameState();
 
@@ -65,7 +60,7 @@ namespace TicTacToe
                 return;
             }
 
-            if (_board.IsFull())
+            if (Board.IsFull())
             {
                 GameState = new GameDraw();
                 return;
@@ -81,7 +76,7 @@ namespace TicTacToe
 
         private bool IsGameWon()
         {
-            return _winConditions.Any(wc => wc.HasWon(CurrentPlayer, _board));
+            return _winConditions.Any(wc => wc.HasWon(CurrentPlayer, Board));
         }
 
         private void SwitchPlayers()

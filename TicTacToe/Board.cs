@@ -1,17 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
-    internal class Board
+    public class Board
     {
         private readonly IBoardEntity _emptyCoordinate;
         private readonly IBoardEntity[,] _board;
 
         public int Size => _board.GetLength(0);
 
-        internal Board(int size, IBoardEntity emptyBoardEntity = null)
+        public Board(int size, IBoardEntity emptyBoardEntity = null)
         {
             if (size < 3) throw new ArgumentOutOfRangeException(nameof(size));
 
@@ -52,7 +53,7 @@ namespace TicTacToe
             return _board[coordinate.X - 1, coordinate.Y - 1];
         }
 
-        public override string ToString()
+        public string Describe()
         {
             var output = string.Empty;
             for (var row = 0; row < _board.GetLength(0); row++)

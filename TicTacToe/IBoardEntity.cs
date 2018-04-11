@@ -1,6 +1,6 @@
 ﻿namespace TicTacToe
 {
-    internal interface IBoardEntity
+    public interface IBoardEntity
     {
         char Symbol { get; }
     }

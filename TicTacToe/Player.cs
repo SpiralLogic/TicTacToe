@@ -5,7 +5,7 @@
         public string Name { get; }
         public char Symbol { get; }
         
-        internal Player(string name, char symbol) 
+        public Player(string name, char symbol) 
         {
             Name = name;
             Symbol = symbol;
