@@ -8,6 +8,11 @@ namespace TicTacToeTests
 {
     public class TicTacToeGameAcceptanceTests
     {
+
+        private readonly Player _testPlayer1 = new Player("Player 1", 'X');
+        private readonly Player _testPlayer2 = new Player("Player 2", 'O');
+        private const int BoardLength = 3;
+        
         [Fact]
         public void Player1CanWinTheGame()
         {

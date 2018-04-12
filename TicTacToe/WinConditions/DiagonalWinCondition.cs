@@ -8,11 +8,11 @@ namespace TicTacToe.WinConditions
         {
             var hasWonLeftRoRight = true;
             var hasWonRightToLeft = true;
-            
-            for (var i = 1; i <= board.Size; i++)
+
+            for (var i = 1; i <= board.BoardLength; i++)
             {
                 hasWonLeftRoRight &= Equals(player, board.GetEntityAt(new Coordinate(i, i)));
-                hasWonRightToLeft &= Equals(player, board.GetEntityAt(new Coordinate(i, 4 - i)));
+                hasWonRightToLeft &= Equals(player, board.GetEntityAt(new Coordinate(i, board.BoardLength + 1 - i)));
             }
 
             return hasWonLeftRoRight || hasWonRightToLeft;

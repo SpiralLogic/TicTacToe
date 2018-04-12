@@ -5,27 +5,25 @@ using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
-    [DataContract]  
+    [DataContract]
     public class Board
     {
-        [DataMember]  
-        private readonly IBoardEntity _emptyCoordinate;
-        [DataMember]  
-        private readonly IBoardEntity[][] _board;
+        [DataMember] private readonly IBoardEntity _emptyCoordinate;
+        [DataMember] private readonly IBoardEntity[][] _board;
 
-        public int Size => _board.GetLength(0);
+        public int BoardLength => _board.GetLength(0);
 
-        public Board(int size, IBoardEntity emptyBoardEntity = null)
+        public Board(int boardLength, IBoardEntity emptyBoardEntity = null)
         {
-            if (size < 3) throw new ArgumentOutOfRangeException(nameof(size));
+            if (boardLength < 3) throw new ArgumentOutOfRangeException(nameof(boardLength));
 
-            _board = new IBoardEntity[size][];
+            _board = new IBoardEntity[boardLength][];
             _emptyCoordinate = emptyBoardEntity ?? new EmptyCoordinate('·');
 
-            for (var row = 0; row < size; row++)
+            for (var row = 0; row < boardLength; row++)
             {
-                _board[row] = new IBoardEntity[size];
-                for (var column = 0; column < size; column++)
+                _board[row] = new IBoardEntity[boardLength];
+                for (var column = 0; column < boardLength; column++)
                 {
                     _board[row][column] = _emptyCoordinate;
                 }
@@ -44,7 +42,7 @@ namespace TicTacToe
 
         public bool IsOnBoard(Coordinate coordinate)
         {
-            return coordinate.X >= 1 && coordinate.X <= Size && coordinate.Y >= 1 && coordinate.Y <= Size;
+            return coordinate.X >= 1 && coordinate.X <= BoardLength && coordinate.Y >= 1 && coordinate.Y <= BoardLength;
         }
 
         public bool IsFull()
@@ -60,9 +58,9 @@ namespace TicTacToe
         public override string ToString()
         {
             var output = string.Empty;
-            for (var row = 0; row < Size; row++)
+            for (var row = 0; row < BoardLength; row++)
             {
-                for (var column = 0; column < Size; column++)
+                for (var column = 0; column < BoardLength; column++)
                 {
                     output += _board[row][column].Symbol + " ";
                 }

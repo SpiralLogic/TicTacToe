@@ -8,30 +8,33 @@ using Coordinate = System.Drawing.Point;
 
 namespace TicTacToe
 {
-    [DataContract]  
+    [DataContract]
     public class TicTacToeGame
     {
-        [DataMember]  
-        private readonly Player _player1;
-        [DataMember]  
-        private readonly Player _player2;
-        [DataMember]  
+        [DataMember] private readonly Board _board;
+
+        [DataMember]
+        public Player Player1 { get; private set; }
+
+        [DataMember]
+        public Player Player2 { get; private set; }
+
+        [DataMember]
         public Player CurrentPlayer { get; private set; }
-        [DataMember]  
+
+        [DataMember]
         public IGameState GameState { get; private set; }
-        [DataMember]  
-        private readonly Board _board;
-        
-        private IEnumerable<IWinCondition> WinConditions => AddWinConditions();
 
-        public TicTacToeGame(int size, Player player1, Player player2)
+        private IEnumerable<IWinCondition> _winConditions;
+
+        public TicTacToeGame(int boardLength, Player player1 = null, Player player2 = null)
         {
-            AddWinConditions();
+            _winConditions = CreateWinConditions();
 
-            _board = new Board(size);
-            _player1 = player1;
-            _player2 = player2;
-            CurrentPlayer = _player1;
+            _board = new Board(boardLength);
+            Player1 = player1 ?? new Player("Player 1", 'X');
+            Player2 = player2 ?? new Player("Player 2", 'O');
+            CurrentPlayer = Player1;
             GameState = new GameInProgress(CurrentPlayer);
         }
 
@@ -41,7 +44,7 @@ namespace TicTacToe
             {
                 return new TurnGameOver();
             }
-            
+
             if (!_board.IsOnBoard(coordinate))
             {
                 return new CoordinateInvalid();
@@ -51,7 +54,7 @@ namespace TicTacToe
             {
                 return new CoordinateAlreadyTaken();
             }
-            
+
             _board.SetPosition(coordinate, CurrentPlayer);
 
             UpdateGameState();
@@ -61,14 +64,17 @@ namespace TicTacToe
 
         public void ForfeitGame()
         {
-            GameState = new GameForfeit(CurrentPlayer);
+            if ((GameState is GameInProgress))
+            {
+                GameState = new GameForfeit(CurrentPlayer);
+            }
         }
 
         public string DescribeBoard()
         {
             return _board.ToString();
         }
-        
+
         private void UpdateGameState()
         {
             if (IsGameWon())
@@ -93,15 +99,15 @@ namespace TicTacToe
 
         private bool IsGameWon()
         {
-            return WinConditions.Any(wc => wc.HasWon(CurrentPlayer, _board));
+            return _winConditions.Any(wc => wc.HasWon(CurrentPlayer, _board));
         }
 
         private void SwitchPlayers()
         {
-            CurrentPlayer = Equals(CurrentPlayer, _player1) ? _player2 : _player1;
+            CurrentPlayer = Equals(CurrentPlayer, Player1) ? Player2 : Player1;
         }
 
-        private static ISet<IWinCondition> AddWinConditions()
+        private IEnumerable<IWinCondition> CreateWinConditions()
         {
             return new HashSet<IWinCondition>
             {
@@ -109,6 +115,12 @@ namespace TicTacToe
                 new VerticalWinCondition(),
                 new DiagonalWinCondition()
             };
+        }
+
+        [OnDeserializing]
+        private void OnDeserialize(StreamingContext ctx)
+        {
+            _winConditions = CreateWinConditions();
         }
     }
 }

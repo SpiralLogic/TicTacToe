@@ -6,7 +6,7 @@ namespace TicTacToe.WinConditions
     {
         public bool HasWon(Player player, Board board)
         {
-            for (var row = 1; row <= board.Size; row++)
+            for (var row = 1; row <= board.BoardLength; row++)
             {
                 if (DoesPlayerFillRow(player, board, row)) return true;
             }
@@ -16,7 +16,7 @@ namespace TicTacToe.WinConditions
 
         private static bool DoesPlayerFillRow(Player player, Board board, int x)
         {
-            for (var column = 1; column <= board.Size; column++)
+            for (var column = 1; column <= board.BoardLength; column++)
             {
                 if (!Equals(player, board.GetEntityAt(new Coordinate(x, column))))
                 {
