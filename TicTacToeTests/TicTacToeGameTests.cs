@@ -17,9 +17,9 @@ namespace TicTacToeTests
         {
             string[] expected =
             {
-                ". . .",
-                ". . .",
-                ". . ."
+                "· · ·",
+                "· · ·",
+                "· · ·"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -32,9 +32,9 @@ namespace TicTacToeTests
         {
             string[] expected =
             {
-                ". . .",
-                ". . .",
-                ". . ."
+                "· · ·",
+                "· · ·",
+                "· · ·"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -48,16 +48,16 @@ namespace TicTacToeTests
         {
             string[] before =
             {
-                ". . .",
-                ". . .",
-                ". . ."
+                "· · ·",
+                "· · ·",
+                "· · ·"
             };
 
             string[] expected =
             {
-                "X . .",
-                ". . .",
-                ". . ."
+                "X · ·",
+                "· · ·",
+                "· · ·"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -82,7 +82,7 @@ namespace TicTacToeTests
             {
                 "X O X",
                 "O X O",
-                ". . ."
+                "· · ·"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -108,9 +108,9 @@ namespace TicTacToeTests
         {
             string[] expected =
             {
-                ". . .",
-                ". . .",
-                ". . ."
+                "· · ·",
+                "· · ·",
+                "· · ·"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -126,8 +126,8 @@ namespace TicTacToeTests
             string[] expected =
             {
                 "O O X",
-                ". X .",
-                "X . ."
+                "· X ·",
+                "X · ·"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -152,8 +152,8 @@ namespace TicTacToeTests
             string[] expected =
             {
                 "X O O",
-                ". X .",
-                ". . X"
+                "· X ·",
+                "· · X"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -178,8 +178,8 @@ namespace TicTacToeTests
             string[] expected =
             {
                 "X O X",
-                ". O .",
-                "X O ."
+                "· O ·",
+                "X O ·"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);
@@ -205,8 +205,8 @@ namespace TicTacToeTests
             string[] expected =
             {
                 "X X X",
-                ". . .",
-                "O . O"
+                "· · ·",
+                "O · O"
             };
 
             var game = new TicTacToeGame(BoardSize, _testPlayer1, _testPlayer2);

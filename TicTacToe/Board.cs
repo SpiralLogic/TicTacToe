@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Coordinate = System.Drawing.Point;
@@ -21,7 +20,7 @@ namespace TicTacToe
             if (size < 3) throw new ArgumentOutOfRangeException(nameof(size));
 
             _board = new IBoardEntity[size][];
-            _emptyCoordinate = emptyBoardEntity ?? new EmptyCoordinate('.');
+            _emptyCoordinate = emptyBoardEntity ?? new EmptyCoordinate('·');
 
             for (var row = 0; row < size; row++)
             {

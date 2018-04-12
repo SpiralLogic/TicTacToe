@@ -1,4 +1,4 @@
-﻿using TicTacToe;
+﻿﻿using TicTacToe;
 using TicTacToe.GameState;
 using TicTacToe.TurnStatus;
 using Xunit;
@@ -13,56 +13,56 @@ namespace TicTacToeTests
         {
             string[] expectedInitialBoard =
             {
-                ". . .",
-                ". . .",
-                ". . ."
+                "· · ·",
+                "· · ·",
+                "· · ·"
             };
 
             string[] expectedBoard1 =
             {
-                "X . .",
-                ". . .",
-                ". . ."
+                "X · ·",
+                "· · ·",
+                "· · ·"
             };
 
             string[] expectedBoard2 =
             {
-                "X . .",
-                ". . .",
-                ". . O"
+                "X · ·",
+                "· · ·",
+                "· · O"
             };
 
             string[] expectedBoard3 =
             {
-                "X . .",
-                ". . .",
-                "X . O"
+                "X · ·",
+                "· · ·",
+                "X · O"
             };
 
             string[] expectedBoard4 =
             {
-                "X . .",
-                "O . .",
-                "X . O"
+                "X · ·",
+                "O · ·",
+                "X · O"
             };
 
             string[] expectedBoard5 =
             {
-                "X . .",
-                "O X .",
-                "X . O"
+                "X · ·",
+                "O X ·",
+                "X · O"
             };
 
             string[] expectedBoard6 =
             {
-                "X . .",
-                "O X .",
+                "X · ·",
+                "O X ·",
                 "X O O"
             };
             string[] expectedFinalBoard =
             {
-                "X . X",
-                "O X .",
+                "X · X",
+                "O X ·",
                 "X O O"
             };
 
@@ -97,51 +97,51 @@ namespace TicTacToeTests
         {
             string[] expectedInitialBoard =
             {
-                ". . .",
-                ". . .",
-                ". . ."
+                "· · ·",
+                "· · ·",
+                "· · ·"
             };
 
             string[] expectedBoard1 =
             {
-                "X . .",
-                ". . .",
-                ". . ."
+                "X · ·",
+                "· · ·",
+                "· · ·"
             };
 
             string[] expectedBoard2 =
             {
-                "X . .",
-                ". . .",
-                ". . O"
+                "X · ·",
+                "· · ·",
+                "· · O"
             };
 
             string[] expectedBoard4 =
             {
-                "X . .",
-                ". . .",
-                "X . O"
+                "X · ·",
+                "· · ·",
+                "X · O"
             };
 
             string[] expectedBoard5 =
             {
-                "X . .",
-                ". . O",
-                "X . O"
+                "X · ·",
+                "· · O",
+                "X · O"
             };
 
             string[] expectedBoard6 =
             {
-                "X . .",
-                ". X O",
-                "X . O"
+                "X · ·",
+                "· X O",
+                "X · O"
             };
 
             string[] expectedBoard7 =
             {
-                "X . O",
-                ". X O",
-                "X . O"
+                "X · O",
+                "· X O",
+                "X · O"
             };
 
             var game = new TicTacToeGame(3, new Player("Player 1", 'X'), new Player("Player 2", 'O'));
@@ -172,65 +172,65 @@ namespace TicTacToeTests
         {
             string[] expectedInitalBoard =
             {
-                ". . .",
-                ". . .",
-                ". . ."
+                "· · ·",
+                "· · ·",
+                "· · ·"
             };
 
             string[] expectedBoard1 =
             {
-                ". . .",
-                ". X .",
-                ". . ."
+                "· · ·",
+                "· X ·",
+                "· · ·"
             };
 
             string[] expectedBoard3 =
             {
-                ". . .",
-                ". X .",
-                ". . O"
+                "· · ·",
+                "· X ·",
+                "· · O"
             };
 
             string[] expectedBoard4 =
             {
-                ". . .",
-                ". X X",
-                ". . O"
+                "· · ·",
+                "· X X",
+                "· · O"
             };
 
             string[] expectedBoard5 =
             {
-                ". . .",
-                ". X X",
-                ". O O"
+                "· · ·",
+                "· X X",
+                "· O O"
             };
 
             string[] expectedBoard6 =
             {
-                ". X .",
-                ". X X",
-                ". O O"
+                "· X ·",
+                "· X X",
+                "· O O"
             };
 
             string[] expectedBoard7 =
             {
-                ". X .",
+                "· X ·",
                 "O X X",
-                ". O O"
+                "· O O"
             };
 
             string[] expectedBoard8 =
             {
-                "X X .",
+                "X X ·",
                 "O X X",
-                ". O O"
+                "· O O"
             };
 
             string[] expectedBoard9 =
             {
                 "X X O",
                 "O X X",
-                ". O O"
+                "· O O"
             };
             string[] expectedBoard10 =
             {
