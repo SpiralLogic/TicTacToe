@@ -4,21 +4,21 @@ namespace TicTacToe.WinConditions
 {
     internal class VerticalWinCondition : IWinCondition
     {
-        public bool HasWon(Player player, Board board)
+        public bool HasWon(Symbol symbol, Board board)
         {
             for (var row = 1; row <= board.BoardLength; row++)
             {
-                if (DoesPlayerFillColumn(player, board, row)) return true;
+                if (DoesSymbolFillColumn(symbol, board, row)) return true;
             }
 
             return false;
         }
-        
-        private static bool DoesPlayerFillColumn(Player player, Board board, int y)
+
+        private static bool DoesSymbolFillColumn(Symbol symbol, Board board, int y)
         {
             for (var row = 1; row <= board.BoardLength; row++)
             {
-                if (!Equals(player, board.GetEntityAt(new Coordinate(row, y))))
+                if (symbol != board.GetSymbolAt(new Coordinate(row, y)))
                 {
                     return false;
                 }

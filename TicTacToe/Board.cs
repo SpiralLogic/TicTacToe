@@ -8,36 +8,36 @@ namespace TicTacToe
     [DataContract]
     public class Board
     {
-        [DataMember] private readonly IBoardEntity _emptyCoordinate;
-        [DataMember] private readonly IBoardEntity[][] _board;
+        [DataMember] private readonly Symbol _emptySymbol;
+        [DataMember] private readonly Symbol[][] _board;
 
         public int BoardLength => _board.GetLength(0);
 
-        public Board(int boardLength, IBoardEntity emptyBoardEntity = null)
+        public Board(int boardLength, Symbol emptySymbol = null)
         {
             if (boardLength < 3) throw new ArgumentOutOfRangeException(nameof(boardLength));
 
-            _board = new IBoardEntity[boardLength][];
-            _emptyCoordinate = emptyBoardEntity ?? new EmptyCoordinate('·');
+            _board = new Symbol[boardLength][];
+            _emptySymbol = emptySymbol ?? new Symbol('·');
 
             for (var row = 0; row < boardLength; row++)
             {
-                _board[row] = new IBoardEntity[boardLength];
+                _board[row] = new Symbol[boardLength];
                 for (var column = 0; column < boardLength; column++)
                 {
-                    _board[row][column] = _emptyCoordinate;
+                    _board[row][column] = _emptySymbol;
                 }
             }
         }
 
-        public void SetPosition(Coordinate coordinate, Player player)
+        public void Set(Coordinate coordinate, Symbol symbol)
         {
-            _board[coordinate.X - 1][coordinate.Y - 1] = player;
+            _board[coordinate.X - 1][coordinate.Y - 1] = symbol;
         }
 
         public bool IsEmptyAt(Coordinate coordinate)
         {
-            return _board[coordinate.X - 1][coordinate.Y - 1].Symbol == _emptyCoordinate.Symbol;
+            return _board[coordinate.X - 1][coordinate.Y - 1] == _emptySymbol;
         }
 
         public bool IsOnBoard(Coordinate coordinate)
@@ -47,10 +47,10 @@ namespace TicTacToe
 
         public bool IsFull()
         {
-            return _board.SelectMany(b => b).All(coordinate => coordinate.Symbol != _emptyCoordinate.Symbol);
+            return _board.SelectMany(b => b).All(coordinate => coordinate != _emptySymbol);
         }
 
-        public IBoardEntity GetEntityAt(Coordinate coordinate)
+        public Symbol GetSymbolAt(Coordinate coordinate)
         {
             return _board[coordinate.X - 1][coordinate.Y - 1];
         }
@@ -62,7 +62,7 @@ namespace TicTacToe
             {
                 for (var column = 0; column < BoardLength; column++)
                 {
-                    output += _board[row][column].Symbol + " ";
+                    output += _board[row][column] + " ";
                 }
 
                 output = output.TrimEnd() + '\n';

@@ -2,6 +2,6 @@
 {
     internal interface IWinCondition
     {
-        bool HasWon(Player player, Board board);
+        bool HasWon(Symbol player, Board board);
     }
 }

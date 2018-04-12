@@ -2,36 +2,42 @@
 
 namespace TicTacToe
 {
-    [DataContract]  
-    public class Player : IBoardEntity
+    [DataContract]
+    public class Player
     {
-        [DataMember]  
+        [DataMember]
         public string Name { get; private set; }
-     
-        [DataMember]  
-        public char Symbol { get; private set; }
-        
-        public Player(string name, char symbol) 
+
+        [DataMember] public readonly Symbol Symbol;
+
+        public Player(string name, Symbol symbol)
         {
             Name = name;
             Symbol = symbol;
         }
 
-        public bool Equals(IBoardEntity other)
+        public Player(string name, char symbol) : this(name, new Symbol(symbol))
         {
-            return Symbol == other.Symbol;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((Player) obj);
         }
 
         public override int GetHashCode()
         {
             return Symbol.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Player player && player.Symbol == Symbol;
+        }
+
+        public static bool operator ==(Player player1, Player player2)
+        {
+            return player1?.Symbol == player2?.Symbol;
+        }
+
+        public static bool operator !=(Player player1, Player player2)
+        {
+            return !(player1 == player2);
         }
     }
 }

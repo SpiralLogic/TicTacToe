@@ -19,9 +19,7 @@ namespace TicTacToe
                     typeof(GameInProgress),
                     typeof(GameDraw),
                     typeof(GameForfeit),
-                    typeof(Player),
                     typeof(GameWon),
-                    typeof(EmptyCoordinate)
                 },
                 SerializeReadOnlyTypes = true
             };
@@ -49,8 +47,6 @@ namespace TicTacToe
                         typeof(GameDraw),
                         typeof(GameForfeit),
                         typeof(GameWon),
-                        typeof(Player),
-                        typeof(EmptyCoordinate)
                     },
 
                     SerializeReadOnlyTypes = true

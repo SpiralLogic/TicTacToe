@@ -93,10 +93,10 @@ namespace TicTacToeTests
             var secondPlayer = game.CurrentPlayer;
 
             game.TakeTurn(new Coordinate(1, 2));
-            game.TakeTurn(new Coordinate(1, BoardLength));
+            game.TakeTurn(new Coordinate(1, 3));
             game.TakeTurn(new Coordinate(2, 1));
             game.TakeTurn(new Coordinate(2, 2));
-            game.TakeTurn(new Coordinate(2, BoardLength));
+            game.TakeTurn(new Coordinate(2, 3));
 
             Assert.Equal(_testPlayer1.Symbol, firstPlayer.Symbol);
             Assert.Equal(_testPlayer2.Symbol, secondPlayer.Symbol);
@@ -132,13 +132,13 @@ namespace TicTacToeTests
 
             var game = new TicTacToeGame(BoardLength, _testPlayer1, _testPlayer2);
 
-            game.TakeTurn(new Coordinate(BoardLength, 1));
+            game.TakeTurn(new Coordinate(3, 1));
             game.TakeTurn(new Coordinate(1, 1));
             game.TakeTurn(new Coordinate(2, 2));
             game.TakeTurn(new Coordinate(1, 2));
 
             var statusBeforeWinningTurn = game.GameState;
-            game.TakeTurn(new Coordinate(1, BoardLength));
+            game.TakeTurn(new Coordinate(1, 3));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             Assert.Equal(_testPlayer1.Symbol, game.CurrentPlayer.Symbol);
@@ -159,12 +159,12 @@ namespace TicTacToeTests
             var game = new TicTacToeGame(BoardLength, _testPlayer1, _testPlayer2);
 
             game.TakeTurn(new Coordinate(1, 1));
-            game.TakeTurn(new Coordinate(1, BoardLength));
+            game.TakeTurn(new Coordinate(1, 3));
             game.TakeTurn(new Coordinate(2, 2));
             game.TakeTurn(new Coordinate(1, 2));
 
             var statusBeforeWinningTurn = game.GameState;
-            game.TakeTurn(new Coordinate(BoardLength, BoardLength));
+            game.TakeTurn(new Coordinate(3, 3));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             Assert.Equal(_testPlayer1.Symbol, game.CurrentPlayer.Symbol);
@@ -186,12 +186,12 @@ namespace TicTacToeTests
 
             game.TakeTurn(new Coordinate(1, 1));
             game.TakeTurn(new Coordinate(1, 2));
-            game.TakeTurn(new Coordinate(1, BoardLength));
+            game.TakeTurn(new Coordinate(1, 3));
             game.TakeTurn(new Coordinate(2, 2));
-            game.TakeTurn(new Coordinate(BoardLength, 1));
+            game.TakeTurn(new Coordinate(3, 1));
 
             var statusBeforeWinningTurn = game.GameState;
-            game.TakeTurn(new Coordinate(BoardLength, 2));
+            game.TakeTurn(new Coordinate(3, 2));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             Assert.Equal(_testPlayer2.Symbol, game.CurrentPlayer.Symbol);
@@ -212,12 +212,12 @@ namespace TicTacToeTests
             var game = new TicTacToeGame(BoardLength, _testPlayer1, _testPlayer2);
 
             game.TakeTurn(new Coordinate(1, 1));
-            game.TakeTurn(new Coordinate(BoardLength, 1));
+            game.TakeTurn(new Coordinate(3, 1));
             game.TakeTurn(new Coordinate(1, 2));
-            game.TakeTurn(new Coordinate(BoardLength, BoardLength));
+            game.TakeTurn(new Coordinate(3, 3));
 
             var statusBeforeWinningTurn = game.GameState;
-            game.TakeTurn(new Coordinate(1, BoardLength));
+            game.TakeTurn(new Coordinate(1, 3));
 
             Assert.IsType<GameInProgress>(statusBeforeWinningTurn);
             Assert.IsType<GameWon>(game.GameState);

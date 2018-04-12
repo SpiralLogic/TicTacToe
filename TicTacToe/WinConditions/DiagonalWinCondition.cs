@@ -4,15 +4,15 @@ namespace TicTacToe.WinConditions
 {
     internal class DiagonalWinCondition : IWinCondition
     {
-        public bool HasWon(Player player, Board board)
+        public bool HasWon(Symbol symbol, Board board)
         {
             var hasWonLeftRoRight = true;
             var hasWonRightToLeft = true;
 
             for (var i = 1; i <= board.BoardLength; i++)
             {
-                hasWonLeftRoRight &= Equals(player, board.GetEntityAt(new Coordinate(i, i)));
-                hasWonRightToLeft &= Equals(player, board.GetEntityAt(new Coordinate(i, board.BoardLength + 1 - i)));
+                hasWonLeftRoRight &= symbol == board.GetSymbolAt(new Coordinate(i, i));
+                hasWonRightToLeft &= symbol == board.GetSymbolAt(new Coordinate(i, board.BoardLength + 1 - i));
             }
 
             return hasWonLeftRoRight || hasWonRightToLeft;

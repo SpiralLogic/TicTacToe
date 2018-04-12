@@ -32,8 +32,8 @@ namespace TicTacToe
             _winConditions = CreateWinConditions();
 
             _board = new Board(boardLength);
-            Player1 = player1 ?? new Player("Player 1", 'X');
-            Player2 = player2 ?? new Player("Player 2", 'O');
+            Player1 = player1 ?? new Player("Player 1", new Symbol('X'));
+            Player2 = player2 ?? new Player("Player 2", new Symbol('O'));
             CurrentPlayer = Player1;
             GameState = new GameInProgress(CurrentPlayer);
         }
@@ -55,7 +55,7 @@ namespace TicTacToe
                 return new CoordinateAlreadyTaken();
             }
 
-            _board.SetPosition(coordinate, CurrentPlayer);
+            _board.Set(coordinate, CurrentPlayer.Symbol);
 
             UpdateGameState();
 
@@ -99,7 +99,7 @@ namespace TicTacToe
 
         private bool IsGameWon()
         {
-            return _winConditions.Any(wc => wc.HasWon(CurrentPlayer, _board));
+            return _winConditions.Any(wc => wc.HasWon(CurrentPlayer.Symbol, _board));
         }
 
         private void SwitchPlayers()
